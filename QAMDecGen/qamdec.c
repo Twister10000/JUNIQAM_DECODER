@@ -50,6 +50,8 @@ void vQuamDec(void* pvParameters)
 				for (int i = 0; i < 32; i++)
 				{
 					ringbuffer[i] = bufferelement[i];
+					*p_Writing = bufferelement[i];
+					p_Writing++;
 				}
 				//Decode Buffer
 				//Search for Peak Position in Array
