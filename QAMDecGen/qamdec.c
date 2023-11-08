@@ -44,6 +44,10 @@ void vQuamDec(void* pvParameters)
 	for(;;) {
 		while(uxQueueMessagesWaiting(decoderQueue) > 0) { // Nur arbeiten wenn in der Queue auch Werte drin sind
 			if(xQueueReceive(decoderQueue, &bufferelement[0], portMAX_DELAY) == pdTRUE) {
+				for (int i = 0; i < 32; i++)
+				{
+					ringbuffer[i] = bufferelement[i];
+				}
 				//Decode Buffer
 				//Search for Peak Position in Array
 				//Switch Statement for decode Array Pos to bin
