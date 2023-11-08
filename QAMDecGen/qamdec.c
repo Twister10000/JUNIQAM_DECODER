@@ -27,6 +27,7 @@
 
 QueueHandle_t decoderQueue;
 uint8_t receivebuffer[100];
+uint16_t ringbuffer[256];
 
 void vQuamDec(void* pvParameters)
 {
