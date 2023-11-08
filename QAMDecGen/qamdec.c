@@ -29,6 +29,8 @@ QueueHandle_t decoderQueue;
 uint8_t receivebuffer[100];
 uint16_t ringbuffer[256];
 
+uint8_t Ringbuffer_Pos = 0;
+
 uint16_t * p_Writing = &ringbuffer[0];
 uint16_t * p_Reading = &ringbuffer[0];
 
@@ -51,6 +53,8 @@ void vQuamDec(void* pvParameters)
 				{
 					*p_Writing = bufferelement[i];
 					p_Writing++;
+					Ringbuffer_Pos++;
+					
 				}
 				//Decode Buffer
 				//Search for Peak Position in Array
@@ -58,6 +62,10 @@ void vQuamDec(void* pvParameters)
 			if (((p_Writing - p_Reading)%64) == 0)
 			{
 				p_Reading = p_Writing; //Memory Unsicher
+			}
+			if (Ringbuffer_Pos%256 == 0)
+			{
+				p_Writing = &ringbuffer[0];
 			}
 			}
 		}		
