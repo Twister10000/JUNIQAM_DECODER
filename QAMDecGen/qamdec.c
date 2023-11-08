@@ -49,13 +49,16 @@ void vQuamDec(void* pvParameters)
 			if(xQueueReceive(decoderQueue, &bufferelement[0], portMAX_DELAY) == pdTRUE) {
 				for (int i = 0; i < 32; i++)
 				{
-					ringbuffer[i] = bufferelement[i];
 					*p_Writing = bufferelement[i];
 					p_Writing++;
 				}
 				//Decode Buffer
 				//Search for Peak Position in Array
 				//Switch Statement for decode Array Pos to bin
+			if (((p_Writing - p_Reading)%64) == 0)
+			{
+				p_Reading = p_Writing; //Memory Unsicher
+			}
 			}
 		}		
 		vTaskDelay( 2 / portTICK_RATE_MS );
