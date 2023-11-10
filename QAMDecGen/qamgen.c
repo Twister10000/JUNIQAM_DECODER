@@ -60,7 +60,7 @@ const int16_t Impuls4[NR_OF_SAMPLES] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 
 #define SENDBUFFER_SIZE 20
 //uint8_t sendbuffer[SENDBUFFER_SIZE] = {0,1,0,1,0,1,2,1,3,0,1,1,3,2,1,0,0,1,0,1};
 
-uint8_t sendbuffer[100];
+uint8_t sendbuffer[100] = {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
 uint8_t sendID = 0;
 void createSendData() { /* Eine Beispiel funktion für die Erstellung der Sende daten. */
 	sendID++;
@@ -103,6 +103,13 @@ void vQuamGen(void *pvParameters) { /*Task selber. Nur Delays Es wird alles über
 }
 
 void fillBuffer(uint16_t buffer[NR_OF_SAMPLES]) { // HIer werden die Daten für den DAC Befült. In unserem Fall müssten wir schauen wie lange wir warten müssen bis wir den Impuls schicken können.
+	switch (sendbuffer[0])
+	{
+		case 4:
+		return;
+		break;
+	}
+	
 	static int pSendbuffer = 0;
 	
 	for(int i = 0; i < NR_OF_SAMPLES;i++) {
