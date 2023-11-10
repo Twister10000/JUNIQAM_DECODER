@@ -68,7 +68,7 @@ void vQuamDec(void* pvParameters)
 				for (int i = 0; i < 32; i++)
 				{
 					
-					if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte mï¿½ssen angepasst werden mit den Werten von Merlin
+					if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
 					{
 						max = *p_Reading;
 						*p_MAXPOS1r = j;
@@ -78,7 +78,7 @@ void vQuamDec(void* pvParameters)
 				}
 				for (int i = 0; i < 32; i++)
 				{
-					if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte mï¿½ssen angepasst werden mit den Werten von Merlin
+					if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
 					{
 						max = *p_Reading;
 						*p_MAXPOS2r = j;
@@ -87,7 +87,7 @@ void vQuamDec(void* pvParameters)
 					j++; 
 				}
 			}
-			if (Ringbuffer_Pos%256 == 0)
+			if (Ringbuffer_Pos%255 == 0)
 			{
 				Ringbuffer_Pos = 0;
 				p_Writing = &ringbuffer[0];
