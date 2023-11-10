@@ -28,12 +28,16 @@
 QueueHandle_t decoderQueue;
 uint8_t receivebuffer[100];
 uint16_t ringbuffer[256];
-
+uint16_t max = 0;
+uint8_t Mode = 0;
+uint8_t maxpos[2];
 uint8_t Ringbuffer_Pos = 0;
-
+/*Pointer Init*/
 uint16_t * p_Writing = &ringbuffer[0];
 uint16_t * p_Reading = &ringbuffer[0];
-
+uint8_t * p_MAXPOS1r = &maxpos[0];
+uint8_t * p_MAXPOS2r = &maxpos[1];
+int j = 0;
 void vQuamDec(void* pvParameters)
 {
 	( void ) pvParameters;
@@ -61,12 +65,34 @@ void vQuamDec(void* pvParameters)
 				//Switch Statement for decode Array Pos to bin
 			if (((p_Writing - p_Reading)%64) == 0)
 			{
-				p_Reading = p_Writing; //Memory Unsicher
+				for (int i = 0; i < 32; i++)
+				{
+					
+					if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte m�ssen angepasst werden mit den Werten von Merlin
+					{
+						max = *p_Reading;
+						*p_MAXPOS1r = j;
+					}
+ 					p_Reading++;
+					j++; 
+				}
+				for (int i = 0; i < 32; i++)
+				{
+					if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte m�ssen angepasst werden mit den Werten von Merlin
+					{
+						max = *p_Reading;
+						*p_MAXPOS2r = j;
+					}
+ 					p_Reading++;
+					j++; 
+				}
 			}
 			if (Ringbuffer_Pos%256 == 0)
 			{
+				Ringbuffer_Pos = 0;
 				p_Writing = &ringbuffer[0];
 			}
+			
 			}
 		}		
 		vTaskDelay( 2 / portTICK_RATE_MS );
