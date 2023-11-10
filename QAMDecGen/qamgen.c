@@ -67,7 +67,7 @@ void createSendData() { /* Eine Beispiel funktion für die Erstellung der Sende d
 	uint8_t datalen = strlen(senddata); 
 	//MetaInfos werden übermittelt
 	sendbuffer[0] = 1;
-	sendbuffer[1] = 2;
+	sendbuffer[1] = 1;
 	sendbuffer[2] = sendID & 0x03;
 	sendbuffer[3] = (sendID >> 2) & 0x03;
 	sendbuffer[4] = (datalen >> 0) & 0x03;
