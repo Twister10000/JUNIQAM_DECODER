@@ -60,29 +60,52 @@ void vQuamDec(void* pvParameters)
 	for(;;) {
 		while(uxQueueMessagesWaiting(decoderQueue) > 0) { // Nur arbeiten wenn in der Queue auch Werte drin sind
 			if(xQueueReceive(decoderQueue, &bufferelement[0], portMAX_DELAY) == pdTRUE) {
-				for (int i = 0; i < 32; i++)
+				for (int i = 0; i < 32; i++) // Die Werte von der Queue werden in das Ringbuffer geschrieben
 				{
 					*p_Writing = bufferelement[i];
 					p_Writing++;
 					Ringbuffer_Pos++;
+					//Differenz Wert
 					
 				}
-				//Decode Buffer
-				//Search for Peak Position in Array
-				//Switch Statement for decode Array Pos to bin
-			if (((p_Writing - p_Reading)%64) == 0)
-			{
-				for (int i = 0; i < 32; i++)
+				switch(Mode)
 				{
-					
-					if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
-					{
-						max = *p_Reading;
-						*p_MAXPOS1r = j;
-					}
- 					p_Reading++;
-					j++; 
+					case 0:
+						if (((p_Writing - p_Reading)%64) == 0)
+						{
+							for (int i = 0; i < 32; i++)
+							{
+								
+								if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
+								{
+									max = *p_Reading;
+									*p_MAXPOS1r = j;
+								}
+								p_Reading++;
+								j++;
+							}
+							for (int i = 0; i < 32; i++)
+							{
+								if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
+								{
+									max = *p_Reading;
+									*p_MAXPOS2r = j;
+								}
+								p_Reading++;
+								j++;
+							}
+						}
+						Offset = *p_MAXPOS2r - *p_MAXPOS1r;
+						*p_MAXPOS1r = *p_MAXPOS2r;
+						Mode = 1;
+						break;
+						
+					default:
+					break;
 				}
+			
+			if (((p_Writing - p_Reading)%32) == 0)
+			{							
 				for (int i = 0; i < 32; i++)
 				{
 					if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
@@ -90,10 +113,15 @@ void vQuamDec(void* pvParameters)
 						max = *p_Reading;
 						*p_MAXPOS2r = j;
 					}
- 					p_Reading++;
-					j++; 
+					p_Reading++;
+					j++;
 				}
+				Offset = *p_MAXPOS2r - *p_MAXPOS1r;
+				*p_MAXPOS1r = *p_MAXPOS2r;
+				p_Reading = p_Writing;
 			}
+				
+			
 			if (Ringbuffer_Pos%255 == 0)
 			{
 				Ringbuffer_Pos = 0;
@@ -101,7 +129,10 @@ void vQuamDec(void* pvParameters)
 			}
 			
 			}
-		}		
+		}
+		//Decode Buffer
+		//Search for Peak Position in Array
+		//Switch Statement for decode Array Pos to bin		
 		vTaskDelay( 2 / portTICK_RATE_MS );
 	}
 }
