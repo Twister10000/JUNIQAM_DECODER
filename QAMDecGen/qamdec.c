@@ -24,6 +24,36 @@
 
 #include "qaminit.h"
 #include "qamdec.h"
+/*Defines*/
+#define quarterjump1 7
+#define quarterjump2 8
+#define quarterjump3 9
+
+#define halfjump1 15
+#define halfjump2 16
+#define halfjump3 17
+
+#define threequartersjump1 23
+#define threequartersjump2 24
+#define threequartersjump3 25
+
+#define fulljump1 31
+#define fulljump2 32
+#define fulljump3 33
+
+#define onequarterjump1 39
+#define onequarterjump2 40
+#define onequarterjump3 41
+
+#define onehalfjump1 47
+#define onehalfjump2 48
+#define onehalfjump3 49
+
+#define onethreequartersjump1 55
+#define onethreequartersjump2 56
+#define onethreequartersjump3 57
+
+
 /*Queue Init*/
 QueueHandle_t decoderQueue;
 
