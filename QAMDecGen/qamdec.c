@@ -80,7 +80,7 @@ uint8_t * p_MAXPOS2r = &maxpos[1];
 
 void analyzediff(void){
 	
-	//Schleife erstellen fï¿½r die Grosse von unserem Paket: Im Testfall sind es 58 Elemente
+	//Schleife erstellen für die Grosse von unserem Paket: Im Testfall sind es 58 Elemente
 	//Nach schleife den Sync Modus wieder starten.
 		switch(Offset){ // Startwert ist 3 
 			case quarterjump2:
@@ -256,9 +256,6 @@ void vQuamDec(void* pvParameters)
 					//Differenz Wert
 					
 				}
-				switch(Mode)
-				{
-					case 0:
 						if (((p_Writing - p_Reading)%64) == 0)
 						{
 							for (int i = 0; i < 32; i++)
@@ -285,39 +282,39 @@ void vQuamDec(void* pvParameters)
 						}
 						Offset = *p_MAXPOS2r - *p_MAXPOS1r;
 						*p_MAXPOS1r = *p_MAXPOS2r;
-						Mode = 1;
-						break;
-						
+			
+				if (((p_Writing - p_Reading)%32) == 0)
+				{							
+					for (int i = 0; i < 32; i++)
+					{
+						if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
+						{
+							max = *p_Reading;
+							*p_MAXPOS2r = j;
+						}
+						p_Reading++;
+						j++;
+					}
+					Offset = *p_MAXPOS2r - *p_MAXPOS1r;
+					*p_MAXPOS1r = *p_MAXPOS2r;
+					p_Reading = p_Writing;
+				}
+				if (Ringbuffer_Pos%255 == 0)
+				{
+					Ringbuffer_Pos = 0;
+					p_Writing = &ringbuffer[0];
+				}
+				switch(maxpos[0]){
+					case 0:
+					break;
 					default:
+					analyzediff();
 					break;
 				}
-			
-			if (((p_Writing - p_Reading)%32) == 0)
-			{							
-				for (int i = 0; i < 32; i++)
-				{
-					if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
-					{
-						max = *p_Reading;
-						*p_MAXPOS2r = j;
-					}
-					p_Reading++;
-					j++;
-				}
-				Offset = *p_MAXPOS2r - *p_MAXPOS1r;
-				*p_MAXPOS1r = *p_MAXPOS2r;
-				p_Reading = p_Writing;
-			}
-				
-			
-			if (Ringbuffer_Pos%255 == 0)
-			{
-				Ringbuffer_Pos = 0;
-				p_Writing = &ringbuffer[0];
-			}
-			
-			}
-		}
+			} //Klammer While
+		} //Klammer For
+		
+		
 		//Decode Buffer
 		//Search for Peak Position in Array
 		//Switch Statement for decode Array Pos to bin		
