@@ -78,6 +78,161 @@ uint16_t * p_Reading = &ringbuffer[0];
 uint8_t * p_MAXPOS1r = &maxpos[0];
 uint8_t * p_MAXPOS2r = &maxpos[1];
 
+void analyzediff(void){
+	
+	//Schleife erstellen f�r die Grosse von unserem Paket: Im Testfall sind es 58 Elemente
+	//Nach schleife den Sync Modus wieder starten.
+		switch(Offset){ // Startwert ist 3 
+			case quarterjump2:
+				switch(lastnumber){
+					case 0:
+						receivebuffer[k] = 1;
+						lastnumber = 1;
+						break;
+					case 1:
+						receivebuffer[k] = 2;
+						lastnumber = 2;
+						break;
+					case 2:
+						receivebuffer[k] = 3;
+						lastnumber = 3;
+						break;
+					case 3:
+						receivebuffer[k] = 0;
+						lastnumber = 0;
+						break;
+				}
+			break;
+			case halfjump2:				
+				switch(lastnumber){
+					case 0:
+					receivebuffer[k] = 2;
+					lastnumber = 2;
+					break;
+					case 1:
+					receivebuffer[k] = 3;
+					lastnumber = 3;
+					break;
+					case 2:
+					receivebuffer[k] = 0;
+					lastnumber = 0;
+					break;
+					case 3:
+					receivebuffer[k] = 1;
+					lastnumber = 1;
+					break;
+				}
+				
+			break;
+			case threequartersjump2:				
+				switch(lastnumber){
+					case 0:
+					receivebuffer[k] = 3;
+					lastnumber = 3;
+					break;
+					case 1:
+					receivebuffer[k] = 0;
+					lastnumber = 0;
+					break;
+					case 2:
+					receivebuffer[k] = 1;
+					lastnumber = 1;
+					break;
+					case 3:
+					receivebuffer[k] = 2;
+					lastnumber = 2;
+					break;
+				}
+				
+			break;
+			case fulljump2:				
+				switch(lastnumber){
+					case 0:
+					receivebuffer[k] = 0;
+					lastnumber = 0;
+					break;
+					case 1:
+					receivebuffer[k] = 1;
+					lastnumber = 1;
+					break;
+					case 2:
+					receivebuffer[k] = 2;
+					lastnumber = 2;
+					break;
+					case 3:
+					receivebuffer[k] = 3;
+					lastnumber = 3;
+					break;
+				}
+				
+			break;
+			case onequarterjump2:
+				switch(lastnumber){
+					case 0:
+					receivebuffer[k] = 1;
+					lastnumber = 1;
+					break;
+					case 1:
+					receivebuffer[k] = 2;
+					lastnumber = 2;
+					break;
+					case 2:
+					receivebuffer[k] = 3;
+					lastnumber = 3;
+					break;
+					case 3:
+					receivebuffer[k] = 0;
+					lastnumber = 0;
+					break;
+				}
+				
+			break;
+			case onehalfjump2:
+				switch(lastnumber){
+					case 0:
+					receivebuffer[k] = 2;
+					lastnumber = 2;
+					break;
+					case 1:
+					receivebuffer[k] = 3;
+					lastnumber = 3;
+					break;
+					case 2:
+					receivebuffer[k] = 0;
+					lastnumber = 0;
+					break;
+					case 3:
+					receivebuffer[k] = 1;
+					lastnumber = 1;
+					break;
+				}
+			break;
+			case onethreequartersjump2:
+				switch(lastnumber){
+					case 0:
+					receivebuffer[k] = 3;
+					lastnumber = 3;
+					break;
+					case 1:
+					receivebuffer[k] = 0;
+					lastnumber = 0;
+					break;
+					case 2:
+					receivebuffer[k] = 1;
+					lastnumber = 1;
+					break;
+					case 3:
+					receivebuffer[k] = 2;
+					lastnumber = 2;
+					break;
+				}
+			break;
+		}
+		k++;		
+			
+	
+}
+
 void vQuamDec(void* pvParameters)
 {
 	( void ) pvParameters;
