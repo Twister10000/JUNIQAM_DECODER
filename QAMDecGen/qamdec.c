@@ -64,10 +64,13 @@ uint8_t maxpos[2];
 
 /*Var Init*/
 uint16_t max = 0;
-uint8_t Mode = 0;
+uint8_t master_offset = 32;
+uint8_t diff_offset = 0;
 uint8_t Offset = 0;
+uint8_t lastnumber = 3;
 uint8_t Ringbuffer_Pos = 0;
 int j = 0;
+int k = 0;
 
 /*Pointer Init*/
 uint16_t * p_Writing = &ringbuffer[0];
