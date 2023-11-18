@@ -281,7 +281,7 @@ void analyzediff(void){
 				onehalfjump();
 				break;
 			case onehalfjump2:
-				onequarterjump();
+				onehalfjump();
 				break;
 			case onehalfjump3:
 				onehalfjump();
