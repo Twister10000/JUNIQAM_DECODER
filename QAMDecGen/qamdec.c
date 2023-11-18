@@ -78,195 +78,225 @@ uint16_t * p_Reading = &ringbuffer[0];
 uint8_t * p_MAXPOS1r = &maxpos[0];
 uint8_t * p_MAXPOS2r = &maxpos[1];
 
-void quarterjump(void){
-	
-	
+void quarterjump(void){				
+	switch(lastnumber){
+		case 0:
+		receivebuffer[k] = 1;
+		lastnumber = 1;
+		break;
+		case 1:
+		receivebuffer[k] = 2;
+		lastnumber = 2;
+		break;
+		case 2:
+		receivebuffer[k] = 3;
+		lastnumber = 3;
+		break;
+		case 3:
+		receivebuffer[k] = 0;
+		lastnumber = 0;
+		break;
+	}
 }
 
 void halfjump(void){
-	
+	switch(lastnumber){
+		case 0:
+		receivebuffer[k] = 2;
+		lastnumber = 2;
+		break;
+		case 1:
+		receivebuffer[k] = 3;
+		lastnumber = 3;
+		break;
+		case 2:
+		receivebuffer[k] = 0;
+		lastnumber = 0;
+		break;
+		case 3:
+		receivebuffer[k] = 1;
+		lastnumber = 1;
+		break;
+	}
 	
 }
 
 void threequartersjump(void){
-	
+	switch(lastnumber){
+		case 0:
+		receivebuffer[k] = 3;
+		lastnumber = 3;
+		break;
+		case 1:
+		receivebuffer[k] = 0;
+		lastnumber = 0;
+		break;
+		case 2:
+		receivebuffer[k] = 1;
+		lastnumber = 1;
+		break;
+		case 3:
+		receivebuffer[k] = 2;
+		lastnumber = 2;
+		break;
+	}
 	
 }
 
 void fulljump(void){
-	
-	
-	
+	switch(lastnumber){
+		case 0:
+		receivebuffer[k] = 0;
+		lastnumber = 0;
+		break;
+		case 1:
+		receivebuffer[k] = 1;
+		lastnumber = 1;
+		break;
+		case 2:
+		receivebuffer[k] = 2;
+		lastnumber = 2;
+		break;
+		case 3:
+		receivebuffer[k] = 3;
+		lastnumber = 3;
+		break;
+	}
 }
 
 void onequarterjump(void){
-	
-	
+	switch(lastnumber){
+		case 0:
+		receivebuffer[k] = 1;
+		lastnumber = 1;
+		break;
+		case 1:
+		receivebuffer[k] = 2;
+		lastnumber = 2;
+		break;
+		case 2:
+		receivebuffer[k] = 3;
+		lastnumber = 3;
+		break;
+		case 3:
+		receivebuffer[k] = 0;
+		lastnumber = 0;
+		break;
+	}
 }
 
 void onehalfjump(void){
-	
-	
+		switch(lastnumber){
+			case 0:
+			receivebuffer[k] = 2;
+			lastnumber = 2;
+			break;
+			case 1:
+			receivebuffer[k] = 3;
+			lastnumber = 3;
+			break;
+			case 2:
+			receivebuffer[k] = 0;
+			lastnumber = 0;
+			break;
+			case 3:
+			receivebuffer[k] = 1;
+			lastnumber = 1;
+			break;
+		}
 }
 
 void onethreequartersjump(void){
-	
-	
+	switch(lastnumber){
+		case 0:
+		receivebuffer[k] = 3;
+		lastnumber = 3;
+		break;
+		case 1:
+		receivebuffer[k] = 0;
+		lastnumber = 0;
+		break;
+		case 2:
+		receivebuffer[k] = 1;
+		lastnumber = 1;
+		break;
+		case 3:
+		receivebuffer[k] = 2;
+		lastnumber = 2;
+		break;
+	}
 }
 
 void analyzediff(void){
 	
 	//Schleife erstellen für die Grosse von unserem Paket: Im Testfall sind es 58 Elemente
 	//Nach schleife den Sync Modus wieder starten.
-		switch(Offset){ // Startwert ist 3 
+		switch(Offset){ // Startwert ist 3
+			case quarterjump1:
+				quarterjump();
+				break;
 			case quarterjump2:
-				switch(lastnumber){
-					case 0:
-						receivebuffer[k] = 1;
-						lastnumber = 1;
-						break;
-					case 1:
-						receivebuffer[k] = 2;
-						lastnumber = 2;
-						break;
-					case 2:
-						receivebuffer[k] = 3;
-						lastnumber = 3;
-						break;
-					case 3:
-						receivebuffer[k] = 0;
-						lastnumber = 0;
-						break;
-				}
-			break;
+				quarterjump();
+				break;
+			case quarterjump3:
+				quarterjump();
+				break;
+			case halfjump1:
+				halfjump();
+				break;
 			case halfjump2:				
-				switch(lastnumber){
-					case 0:
-					receivebuffer[k] = 2;
-					lastnumber = 2;
-					break;
-					case 1:
-					receivebuffer[k] = 3;
-					lastnumber = 3;
-					break;
-					case 2:
-					receivebuffer[k] = 0;
-					lastnumber = 0;
-					break;
-					case 3:
-					receivebuffer[k] = 1;
-					lastnumber = 1;
-					break;
-				}
-				
-			break;
+				halfjump();
+				break;
+			case halfjump3:
+				halfjump();
+				break;
+			case threequartersjump1:
+				threequartersjump();
+				break;
 			case threequartersjump2:				
-				switch(lastnumber){
-					case 0:
-					receivebuffer[k] = 3;
-					lastnumber = 3;
-					break;
-					case 1:
-					receivebuffer[k] = 0;
-					lastnumber = 0;
-					break;
-					case 2:
-					receivebuffer[k] = 1;
-					lastnumber = 1;
-					break;
-					case 3:
-					receivebuffer[k] = 2;
-					lastnumber = 2;
-					break;
-				}
-				
-			break;
+				threequartersjump();
+				break;
+			case threequartersjump3:
+				threequartersjump();
+				break;
+			case fulljump1:
+				fulljump();
+				break;
 			case fulljump2:				
-				switch(lastnumber){
-					case 0:
-					receivebuffer[k] = 0;
-					lastnumber = 0;
-					break;
-					case 1:
-					receivebuffer[k] = 1;
-					lastnumber = 1;
-					break;
-					case 2:
-					receivebuffer[k] = 2;
-					lastnumber = 2;
-					break;
-					case 3:
-					receivebuffer[k] = 3;
-					lastnumber = 3;
-					break;
-				}
-				
-			break;
+				fulljump();
+				break;
+			case fulljump3:
+				fulljump();
+				break;
+			case onequarterjump1:
+				onequarterjump();
+				break;
 			case onequarterjump2:
-				switch(lastnumber){
-					case 0:
-					receivebuffer[k] = 1;
-					lastnumber = 1;
-					break;
-					case 1:
-					receivebuffer[k] = 2;
-					lastnumber = 2;
-					break;
-					case 2:
-					receivebuffer[k] = 3;
-					lastnumber = 3;
-					break;
-					case 3:
-					receivebuffer[k] = 0;
-					lastnumber = 0;
-					break;
-				}
-				
-			break;
+				onequarterjump();
+				break;
+			case onequarterjump3:
+				onequarterjump();
+				break;
+			case onehalfjump1:
+				onehalfjump();
+				break;
 			case onehalfjump2:
-				switch(lastnumber){
-					case 0:
-					receivebuffer[k] = 2;
-					lastnumber = 2;
-					break;
-					case 1:
-					receivebuffer[k] = 3;
-					lastnumber = 3;
-					break;
-					case 2:
-					receivebuffer[k] = 0;
-					lastnumber = 0;
-					break;
-					case 3:
-					receivebuffer[k] = 1;
-					lastnumber = 1;
-					break;
-				}
-			break;
+				onequarterjump();
+				break;
+			case onehalfjump3:
+				onehalfjump();
+				break;
+			case onethreequartersjump1:
+				onethreequartersjump();
+				break;
 			case onethreequartersjump2:
-				switch(lastnumber){
-					case 0:
-					receivebuffer[k] = 3;
-					lastnumber = 3;
-					break;
-					case 1:
-					receivebuffer[k] = 0;
-					lastnumber = 0;
-					break;
-					case 2:
-					receivebuffer[k] = 1;
-					lastnumber = 1;
-					break;
-					case 3:
-					receivebuffer[k] = 2;
-					lastnumber = 2;
-					break;
-				}
-			break;
+				onethreequartersjump();
+				break;
+			case onethreequartersjump3:
+				onethreequartersjump();
+				break;
 		}
-		k++;		
-			
-	
+		k++;	
 }
 
 void vQuamDec(void* pvParameters)
