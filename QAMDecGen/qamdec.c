@@ -296,7 +296,13 @@ void analyzediff(void){
 				onethreequartersjump();
 				break;
 		}
-		k++;	
+		k++;
+		switch(k){
+			case 59:
+				k = 0;
+				//Code f�r neuen Start
+				break;
+		}	
 }
 
 void vQuamDec(void* pvParameters)
