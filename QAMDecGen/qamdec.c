@@ -385,11 +385,6 @@ void vQuamDec(void* pvParameters)
 				}
 			} //Klammer While
 		} //Klammer For
-		
-		
-		//Decode Buffer
-		//Search for Peak Position in Array
-		//Switch Statement for decode Array Pos to bin		
 		vTaskDelay( 2 / portTICK_RATE_MS );
 	}
 }
