@@ -78,6 +78,42 @@ uint16_t * p_Reading = &ringbuffer[0];
 uint8_t * p_MAXPOS1r = &maxpos[0];
 uint8_t * p_MAXPOS2r = &maxpos[1];
 
+void quarterjump(void){
+	
+	
+}
+
+void halfjump(void){
+	
+	
+}
+
+void threequartersjump(void){
+	
+	
+}
+
+void fulljump(void){
+	
+	
+	
+}
+
+void onequarterjump(void){
+	
+	
+}
+
+void onehalfjump(void){
+	
+	
+}
+
+void onethreequartersjump(void){
+	
+	
+}
+
 void analyzediff(void){
 	
 	//Schleife erstellen für die Grosse von unserem Paket: Im Testfall sind es 58 Elemente
