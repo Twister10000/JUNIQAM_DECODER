@@ -71,6 +71,7 @@ uint8_t lastnumber = 3;
 uint8_t Ringbuffer_Pos = 0;
 int j = 0;
 int k = 0;
+int debug = 0;
 
 /*Pointer Init*/
 uint16_t * p_Writing = &ringbuffer[0];
@@ -300,7 +301,7 @@ void analyzediff(void){
 		switch(k){
 			case 59:
 				k = 0;
-				//Code fï¿½r neuen Start
+				//Code für neuen Start
 				break;
 		}	
 }
@@ -328,7 +329,7 @@ void vQuamDec(void* pvParameters)
 					//Differenz Wert
 					
 				}
-						if (((p_Writing - p_Reading)%64) == 0)
+						if (((p_Writing - p_Reading)%64) == 0) /*Hier wird die Synchronisation gemacht. TODO Differenz dynamisch machen*/
 						{
 							for (int i = 0; i < 32; i++)
 							{
@@ -352,7 +353,7 @@ void vQuamDec(void* pvParameters)
 								j++;
 							}
 						}
-						Offset = *p_MAXPOS2r - *p_MAXPOS1r;
+						Offset = *p_MAXPOS2r - *p_MAXPOS1r; //Kann gelöscht werden
 						*p_MAXPOS1r = *p_MAXPOS2r;
 			
 				if (((p_Writing - p_Reading)%32) == 0)
@@ -375,6 +376,7 @@ void vQuamDec(void* pvParameters)
 				{
 					Ringbuffer_Pos = 0;
 					p_Writing = &ringbuffer[0];
+					debug++;
 				}
 				switch(maxpos[0]){
 					case 0:
