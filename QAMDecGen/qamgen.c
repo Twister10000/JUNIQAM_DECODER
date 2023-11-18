@@ -22,7 +22,7 @@
 
 #include "qaminit.h"
 #include "qamgen.h"
-
+uint8_t debug_gen = 0;
 
 const int16_t sinLookup100[NR_OF_SAMPLES*2] = {0x0,0x18F,0x30F,0x471,0x5A7,0x6A6,0x763,0x7D8,
 												0x7FF,0x7D8,0x763,0x6A6,0x5A7,0x471,0x30F,0x18F,
@@ -57,7 +57,7 @@ const int16_t Impuls4[NR_OF_SAMPLES] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 
 
 	
 
-#define SENDBUFFER_SIZE 20
+#define SENDBUFFER_SIZE 59
 //uint8_t sendbuffer[SENDBUFFER_SIZE] = {0,1,0,1,0,1,2,1,3,0,1,1,3,2,1,0,0,1,0,1};
 
 uint8_t sendbuffer[100] = {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
@@ -97,7 +97,13 @@ void vQuamGen(void *pvParameters) { /*Task selber. Nur Delays Es wird alles über
 	}
 	xEventGroupWaitBits(evDMAState, DMAGENREADY, false, true, portMAX_DELAY);
 	for(;;) {
-		createSendData();
+		switch (debug_gen){
+			case 0:
+				createSendData();
+				debug_gen = 1;
+				break;
+		}
+		/*createSendData();*/
 		vTaskDelay(10/portTICK_RATE_MS);
 	}
 }
@@ -147,6 +153,7 @@ void fillBuffer(uint16_t buffer[NR_OF_SAMPLES]) { // HIer werden die Daten für d
 	if(pSendbuffer < SENDBUFFER_SIZE-1) {
 		pSendbuffer++;
 	} else {
+		debug_gen = 0;
 		pSendbuffer = 0;
 	}
 }
