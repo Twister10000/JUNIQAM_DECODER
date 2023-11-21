@@ -26,7 +26,7 @@
 #include "qamdec.h"
 /*Defines*/
 #define quarterjump1 7
-#define quarterjump2 8
+#define quarterjump2 8 //Perfekt für Sync Weil diese Sprünge nur in einem Fall auftreten können 3 -> 0
 #define quarterjump3 9
 
 #define halfjump1 15
@@ -50,7 +50,7 @@
 #define onehalfjump3 49
 
 #define onethreequartersjump1 55
-#define onethreequartersjump2 56
+#define onethreequartersjump2 56 //Perfekt für Sync Weil diese Sprünge nur in einem Fall auftreten können 0 -> 3
 #define onethreequartersjump3 57
 
 
@@ -233,8 +233,8 @@ void analyzediff(void){
 	//Schleife erstellen für die Grosse von unserem Paket: Im Testfall sind es 58 Elemente
 	//Nach schleife den Sync Modus wieder starten.
 		switch(Offset){ // Startwert ist 3
-			case quarterjump1:
-				quarterjump();
+			case quarterjump1: //Cases zusammenführen für weniger zeilen code!! case1:case2:case3: Code break;
+				quarterjump(); //Wenn man zu oft hier landet kann man beim Offset noch +1 dazurechnen
 				break;
 			case quarterjump2:
 				quarterjump();
@@ -296,6 +296,7 @@ void analyzediff(void){
 			case onethreequartersjump3:
 				onethreequartersjump();
 				break;
+				//Default case einbauen
 		}
 		k++;
 		switch(k){
@@ -329,7 +330,7 @@ void vQuamDec(void* pvParameters)
 					//Differenz Wert
 					
 				}
-						if (((p_Writing - p_Reading)%64) == 0) /*Hier wird die Synchronisation gemacht. TODO Differenz dynamisch machen*/
+						if (((p_Writing - p_Reading)%64) == 0) /*Hier wird die Synchronisation gemacht. TODO Wir müssen einen Idle Stream erkennen. Wir müssen auch einen neuen Start erkennen   */
 						{
 							for (int i = 0; i < 32; i++)
 							{
