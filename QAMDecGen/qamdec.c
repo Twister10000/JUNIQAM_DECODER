@@ -296,7 +296,10 @@ void analyzediff(void){
 			case onethreequartersjump3:
 				onethreequartersjump();
 				break;
-				//Default case einbauen
+			default:
+				//Code für Resett einbauen
+				break;
+				
 		}
 		k++;
 		switch(k){
