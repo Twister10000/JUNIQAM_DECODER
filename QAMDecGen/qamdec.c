@@ -299,7 +299,6 @@ void analyzediff(void){
 			default:
 				//Code für Resett einbauen
 				break;
-				
 		}
 		k++;
 		switch(k){
