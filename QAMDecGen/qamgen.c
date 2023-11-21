@@ -110,7 +110,7 @@ void fillBuffer(uint16_t buffer[NR_OF_SAMPLES]) { // HIer werden die Daten für d
 	switch (sendbuffer[0])
 	{
 		case 4:
-		return;
+		return; //für Erstellung Idel Senddata :)
 		break;
 	}
 	

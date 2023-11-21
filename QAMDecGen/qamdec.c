@@ -58,7 +58,7 @@
 QueueHandle_t decoderQueue;
 
 /*Array Init*/
-uint16_t ringbuffer[256];
+uint16_t ringbuffer[256]; //Array nicht Global erstellen 
 uint8_t receivebuffer[100];
 uint8_t maxpos[2];
 
@@ -300,7 +300,7 @@ void analyzediff(void){
 		}
 		k++;
 		switch(k){
-			case 59:
+			case 59: //Wert noch anpassen
 				k = 0;
 				//Code für neuen Start
 				break;
@@ -330,32 +330,31 @@ void vQuamDec(void* pvParameters)
 					//Differenz Wert
 					
 				}
-						if (((p_Writing - p_Reading)%64) == 0) /*Hier wird die Synchronisation gemacht. TODO Wir müssen einen Idle Stream erkennen. Wir müssen auch einen neuen Start erkennen   */
+				if (((p_Writing - p_Reading)%64) == 0) /*Hier wird die Synchronisation gemacht. TODO Wir müssen einen Idle Stream erkennen. Wir müssen auch einen neuen Start erkennen   */
+				{
+					for (int i = 0; i < 32; i++)
+					{			
+						if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
 						{
-							for (int i = 0; i < 32; i++)
-							{
-								
-								if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
-								{
-									max = *p_Reading;
-									*p_MAXPOS1r = j;
-								}
-								p_Reading++;
-								j++;
-							}
-							for (int i = 0; i < 32; i++)
-							{
-								if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
-								{
-									max = *p_Reading;
-									*p_MAXPOS2r = j;
-								}
-								p_Reading++;
-								j++;
-							}
+							max = *p_Reading;
+							*p_MAXPOS1r = j;
 						}
-						Offset = *p_MAXPOS2r - *p_MAXPOS1r; //Kann gelöscht werden
-						*p_MAXPOS1r = *p_MAXPOS2r;
+						p_Reading++;
+						j++;
+					}
+					for (int i = 0; i < 32; i++)
+					{
+						if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
+						{
+							max = *p_Reading;
+							*p_MAXPOS2r = j;
+						}
+							p_Reading++;
+							j++;
+					}
+				}
+				Offset = *p_MAXPOS2r - *p_MAXPOS1r; //Kann gelöscht werden
+				*p_MAXPOS1r = *p_MAXPOS2r;
 			
 				if (((p_Writing - p_Reading)%32) == 0)
 				{							
