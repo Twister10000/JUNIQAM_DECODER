@@ -65,7 +65,7 @@ void createSendData() { /* Eine Beispiel funktion für die Erstellung der Sendeda
 	char senddata[10] = "HelloWorld";
 	uint8_t datalen = strlen(senddata); 
 	//MetaInfos werden übermittelt
-	sendbuffer[0] = 3;
+	sendbuffer[0] = 1;
 	sendbuffer[1] = 3;
 	sendbuffer[2] = sendID & 0x03;
 	sendbuffer[3] = (sendID >> 2) & 0x03;
@@ -96,7 +96,7 @@ void vQuamGen(void *pvParameters) { /*Task selber. Nur Delays Es wird alles über
 	xEventGroupWaitBits(evDMAState, DMAGENREADY, false, true, portMAX_DELAY);
 	for(;;) {
 		switch (debug_gen){
-			case 0:
+			case 3:
 				createSendData();
 				debug_gen = 1;
 				break;
@@ -117,6 +117,7 @@ void fillBuffer(uint16_t buffer[NR_OF_SAMPLES]) { // HIer werden die Daten für d
 			
 		}
 		 //für Erstellung Idel Senddata :)
+		 return;
 		break;
 	}
 	
