@@ -67,7 +67,7 @@ uint16_t max = 0;
 uint8_t master_offset = 32;
 uint8_t diff_offset = 0;
 uint8_t Offset = 0;
-uint8_t lastnumber = 0;
+uint8_t lastnumber = 3;
 uint8_t Ringbuffer_Pos = 0;
 int j = 0;
 int k = 0;
@@ -302,14 +302,6 @@ void analyzediff(void){
 		}
 		k++;
 		switch(k){
-			case 2:
-				if ((receivebuffer[0] == 0) && (receivebuffer[1] == 3))
-				{
-					receivebuffer[0] = 0; //Mutex
-					receivebuffer[1] = 0;
-					k = 0;
-				}
-				break;
 			case 59: //Wert noch anpassen
 				k = 0;
 				//Code für neuen Start
