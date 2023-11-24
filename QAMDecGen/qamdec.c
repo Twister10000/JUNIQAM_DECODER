@@ -364,7 +364,7 @@ void vQuamDec(void* pvParameters)
 					{
 						if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
 						{
-							max = *p_Reading;
+							max = *p_Reading; //Bei der 3.ten Nachricht will das Programm hier nicht mehr reingehen weil die Pointeradressen nicht mehr sauber durch 32 teilbar sind 
 							*p_MAXPOS2r = j;
 						}
 						p_Reading++;
