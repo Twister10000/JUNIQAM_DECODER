@@ -24,6 +24,7 @@
 #include "qamgen.h"
 uint8_t debug_gen = 0;
 
+
 // const int16_t sinLookup100[NR_OF_SAMPLES*2] = {0x0,0x18F,0x30F,0x471,0x5A7,0x6A6,0x763,0x7D8,
 // 												0x7FF,0x7D8,0x763,0x6A6,0x5A7,0x471,0x30F,0x18F,
 // 												0x0,0xFE71,0xFCF1,0xFB8F,0xFA59,0xF95A,0xF89D,0xF828,
@@ -87,6 +88,7 @@ void createSendData() { /* Eine Beispiel funktion für die Erstellung der Sendeda
 	sendbuffer[7 + (datalen * 4) + 1] = (checksum >> 2) & 0x03;
 	sendbuffer[7 + (datalen * 4) + 2] = (checksum >> 4) & 0x03;
 	sendbuffer[7 + (datalen * 4) + 3] = (checksum >> 6) & 0x03;
+	
 }
 
 void vQuamGen(void *pvParameters) { /*Task selber. Nur Delays Es wird alles über Interrupts gelöst. HIer könnte man die Createsenddata function einbringen */
@@ -133,20 +135,6 @@ void fillBuffer(uint16_t buffer[NR_OF_SAMPLES]) { // HIer werden die Daten für d
 				break;
 		}
 		
-		/*switch(sendbuffer[pSendbuffer]) { //Bits werden auf die 4 QAM Punkte aufgeteilt. Hier würden unsere Impulse verlinkt werden 
-			case 0:
-				buffer[i] = 0x800 + (sinLookup100[i]); 
-			break;
-			case 1:
-				buffer[i] = 0x800 + (sinLookup100[i+16]);
-			break;
-			case 2:
-				buffer[i] = 0x800 + (sinLookup50[i]);
-			break;
-			case 3:
-				buffer[i] = 0x800 + (sinLookup50[i+16]);
-			break;
-		}*/
 	}
 	if(pSendbuffer < SENDBUFFER_SIZE-1) {
 		pSendbuffer++;
