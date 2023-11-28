@@ -56,7 +56,7 @@ int main(void)
 	initDecDMA();
 	
 	xTaskCreate(vQuamGen, NULL, configMINIMAL_STACK_SIZE+500, NULL, 2, NULL);
-	xTaskCreate(vQuamDec, NULL, configMINIMAL_STACK_SIZE+300, NULL, 1, NULL);
+	xTaskCreate(vQuamDec, NULL, configMINIMAL_STACK_SIZE+400, NULL, 1, NULL);
 
 	vDisplayClear();
 	vDisplayWriteStringAtPos(0,0,"FreeRTOS 10.0.1");
