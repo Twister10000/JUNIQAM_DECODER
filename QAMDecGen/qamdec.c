@@ -304,9 +304,17 @@ void analyzediff(void){
 		switch(k){
 			case 59: //Wert noch anpassen
 				k = 0;
+				
+// 				receivebuffer[0] = 0;
+// 				receivebuffer[1] = 0;
+// 				receivebuffer[2] = 0;
+// 				receivebuffer[3] = 0;
+				
+				debug++;
 				//Code für neuen Start
 				break;
 		}	
+		
 }
 
 void vQuamDec(void* pvParameters)
@@ -332,34 +340,8 @@ void vQuamDec(void* pvParameters)
 					//Differenz Wert
 					
 				}
-				if (((p_Writing - p_Reading)%64) == 0) /*Hier wird die Synchronisation gemacht. TODO Wir müssen einen Idle Stream erkennen. Wir müssen auch einen neuen Start erkennen   */
-				{
-					for (int i = 0; i < 32; i++)
-					{			
-						if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
-						{
-							max = *p_Reading;
-							*p_MAXPOS1r = j;
-						}
-						p_Reading++;
-						j++;
-					}
-					for (int i = 0; i < 32; i++)
-					{
-						if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
-						{
-							max = *p_Reading;
-							*p_MAXPOS2r = j;
-						}
-							p_Reading++;
-							j++;
-					}
-				}
-				Offset = *p_MAXPOS2r - *p_MAXPOS1r; //Kann gelöscht werden
-				*p_MAXPOS1r = *p_MAXPOS2r;
-			
-				if (((p_Writing - p_Reading)%32) == 0)
-				{							
+				if (((p_Writing - p_Reading)%32) == 0) //Überprüfen öb == sinnvoll ist eher >=. Mehr als 32 Wert vorraus
+				{			//Letztes Byte als Zähl Variabel nutzen 				
 					for (int i = 0; i < 32; i++)
 					{
 						if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
@@ -372,13 +354,15 @@ void vQuamDec(void* pvParameters)
 					}
 					Offset = *p_MAXPOS2r - *p_MAXPOS1r;
 					*p_MAXPOS1r = *p_MAXPOS2r;
-					p_Reading = p_Writing;
+					p_Reading = p_Writing; //Sinnvoll? Decodieren vlt Separieren von schreiben in den Ringbuffer | vlt Neue Task erstellen?
 				}
-				if (Ringbuffer_Pos%255 == 0)
+				if(Ringbuffer_Pos == 256) //% Operator | Bits maskieren!? Ringbuffer 0/256 == 0 
 				{
 					Ringbuffer_Pos = 0;
-					p_Writing = &ringbuffer[0];
-					debug++;
+					j = 0;
+					p_Writing = &ringbuffer[0]; //Der Code wurde Seriallisiert. Die Tasks 
+					p_Reading = &ringbuffer[0];
+					/*debug++;*/
 				}
 				switch(maxpos[0]){
 					case 0:
@@ -387,6 +371,7 @@ void vQuamDec(void* pvParameters)
 					analyzediff();
 					break;
 				}
+				vTaskDelay( 1 / portTICK_RATE_MS );
 			} //Klammer While
 		} //Klammer For
 		vTaskDelay( 2 / portTICK_RATE_MS );
