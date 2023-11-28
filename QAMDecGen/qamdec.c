@@ -68,10 +68,10 @@ uint8_t master_offset = 32;
 uint8_t diff_offset = 0;
 uint8_t Offset = 0;
 uint8_t lastnumber = 3;
-uint8_t Ringbuffer_Pos = 0;
-int j = 0;
-int k = 0;
-int debug = 0;
+uint16_t Ringbuffer_Pos = 0;
+uint8_t j = 0;
+uint8_t k = 0;
+uint8_t debug = 0;
 
 /*Pointer Init*/
 uint16_t * p_Writing = &ringbuffer[0];
