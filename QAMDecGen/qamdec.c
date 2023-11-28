@@ -68,7 +68,7 @@ uint8_t master_offset = 32;
 uint8_t diff_offset = 0;
 uint8_t Offset = 0;
 uint8_t lastnumber = 3;
-uint8_t Ringbuffer_Pos = 0;
+uint16_t Ringbuffer_Pos = 0;
 uint8_t j = 0;
 uint8_t k = 0;
 uint8_t debug = 0;
@@ -363,7 +363,7 @@ void vQuamDec(void* pvParameters)
 					*p_MAXPOS1r = *p_MAXPOS2r;
 					p_Reading = p_Writing; //Sinnvoll? Decodieren vlt Separieren von schreiben in den Ringbuffer | vlt Neue Task erstellen?
 				}
-				if(Ringbuffer_Pos%255 == 0) //% Operator | Bits maskieren!? Ringbuffer 0/256 == 0 
+				if(Ringbuffer_Pos == 256) //% Operator | Bits maskieren!? Ringbuffer 0/256 == 0 
 				{
 					Ringbuffer_Pos = 0;
 					j = 0;
