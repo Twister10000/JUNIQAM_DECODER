@@ -56,7 +56,7 @@ const int16_t Impuls4[NR_OF_SAMPLES] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 
 										0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x18F,0x30F,0x471,0x5A7, 0x5A7, 0x471, 0x30F, 0x18F,};
 
 
-#define SENDBUFFER_SIZE 60 //Working 59
+#define SENDBUFFER_SIZE 59 //Working 59
 //uint8_t sendbuffer[SENDBUFFER_SIZE] = {0,1,0,1,0,1,2,1,3,0,1,1,3,2,1,0,0,1,0,1};
 
 uint8_t sendbuffer[100] = {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
@@ -137,7 +137,7 @@ void fillBuffer(uint16_t buffer[NR_OF_SAMPLES]) { // HIer werden die Daten für d
 		}
 		
 	}
-	if(pSendbuffer < SENDBUFFER_SIZE-1) {
+	if(pSendbuffer <= SENDBUFFER_SIZE-1) {
 		pSendbuffer++;
 	} else {
 		debug_gen = 0;
