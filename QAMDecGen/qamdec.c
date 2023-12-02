@@ -67,7 +67,7 @@ uint16_t max = 0;
 uint8_t master_offset = 32;
 uint8_t diff_offset = 0;
 uint8_t Offset = 0;
-uint8_t lastnumber = 3;
+uint8_t lastnumber = 0;
 uint16_t Ringbuffer_Pos = 0;
 uint8_t j = 0;
 uint8_t k = 0;
@@ -307,7 +307,7 @@ void analyzediff(void){
 				
 				for (int i = 0; i < 62; i++)
 				{
-					receivebuffer[i] = 0;
+					receivebuffer[i] = 0; //Mutex!
 				}
 // 				receivebuffer[0] = 0;
 // 				receivebuffer[1] = 0;
