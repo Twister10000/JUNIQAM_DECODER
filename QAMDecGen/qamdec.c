@@ -302,10 +302,10 @@ void analyzediff(void){
 		}
 		k++;
 		switch(k){
-			case 60: //Wert noch anpassen working 60
+			case 62: //Wert noch anpassen working 60
 				k = 0;
 				
-				for (int i = 0; i < 60; i++)
+				for (int i = 0; i < 62; i++)
 				{
 					receivebuffer[i] = 0;
 				}

@@ -56,7 +56,7 @@ const int16_t Impuls4[NR_OF_SAMPLES] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 
 										0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x18F,0x30F,0x471,0x5A7, 0x5A7, 0x471, 0x30F, 0x18F,};
 
 
-#define SENDBUFFER_SIZE 59 //Working 59
+#define SENDBUFFER_SIZE 61 //Working 59
 //uint8_t sendbuffer[SENDBUFFER_SIZE] = {0,1,0,1,0,1,2,1,3,0,1,1,3,2,1,0,0,1,0,1};
 
 uint8_t sendbuffer[100] = {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
@@ -89,6 +89,8 @@ void createSendData() { /* Eine Beispiel funktion für die Erstellung der Sendeda
 	sendbuffer[8 + (datalen * 4) + 1] = 1;
 	sendbuffer[8 + (datalen * 4) + 2] = 2;
 	sendbuffer[8 + (datalen * 4) + 3] = 3;
+	sendbuffer[8 + (datalen * 4) + 4] = 2;
+	sendbuffer[8 + (datalen * 4) + 5] = 1;
 	
 }
 
@@ -104,8 +106,7 @@ void vQuamGen(void *pvParameters) { /*Task selber. Nur Delays Es wird alles über
 				debug_gen = 1;
 				break;
 		}
-		/*createSendData();*/
-		vTaskDelay(10/portTICK_RATE_MS);
+		vTaskDelay(1/portTICK_RATE_MS);
 	}
 }
 
