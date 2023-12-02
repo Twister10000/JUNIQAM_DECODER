@@ -59,7 +59,7 @@ QueueHandle_t decoderQueue;
 
 /*Array Init*/
 uint16_t ringbuffer[256]; //Array nicht Global erstellen 
-uint8_t receivebuffer[100];
+uint8_t receivebuffer[50];
 uint8_t maxpos[2];
 
 /*Var Init*/

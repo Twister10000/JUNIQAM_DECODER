@@ -23,6 +23,7 @@
 #include "qaminit.h"
 #include "qamgen.h"
 uint8_t debug_gen = 0;
+uint8_t Chaos_data = 0; //Nur Für Testzwecke ChaosData! Kann später Gelöscht werden
 												
 const int16_t Impuls1[NR_OF_SAMPLES] = {0x18F,0x30F,0x471,0x5A7, 0x5A7, 0x471, 0x30F, 0x18F, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 
 										0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,};
@@ -38,7 +39,7 @@ const int16_t Impuls4[NR_OF_SAMPLES] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 
 
 #define SENDBUFFER_SIZE 31 //Working 29
 
-uint8_t sendbuffer[100] = {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
+uint8_t sendbuffer[50] = {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
 uint8_t sendID = 0;
 void createSendData() { /* Eine Beispiel funktion für die Erstellung der Sendedaten. */
 	sendID++;
@@ -84,22 +85,32 @@ void vQuamGen(void *pvParameters) { /*Task selber. Nur Delays Es wird alles über
 	xEventGroupWaitBits(evDMAState, DMAGENREADY, false, true, portMAX_DELAY);
 	for(;;) {
 		switch (debug_gen){
-			case 0:
+			case 3: // Nur Für Testzwecke ChaosData! Kann später von 3 zu 0 getauscht werden
 				createSendData();
 				debug_gen = 1;
 				break;
-			/*Simulation for a random bit stream Deleted for Final*/
-			case 3:
-				
-				for(int i = 0; i < 29; i++){
+			/************************************************************************/
+			/*        Simulation for a random bit stream Deleted for Final          */
+			/************************************************************************/
+			case 0:
+				sendbuffer[0] = 0;
+				for(int i = 1; i < 31; i++){
 				
 					sendbuffer[i] = rand()%3;
 				
 				}
-				
-				
-				
+				Chaos_data++;
+				switch(Chaos_data){
+					
+					case 3:
+						debug_gen = 3;
+						break;
+				}
+				debug_gen = 1;
 				break;
+			/************************************************************************/
+			/*        END OF SIMULATION                                             */
+			/************************************************************************/
 		}
 		vTaskDelay(1/portTICK_RATE_MS);
 	}
@@ -135,8 +146,22 @@ void fillBuffer(uint16_t buffer[NR_OF_SAMPLES]) { // HIer werden die Daten für d
 	}
 	if(pSendbuffer <= SENDBUFFER_SIZE-1) {
 		pSendbuffer++;
-	} else {
-		debug_gen = 0;
+	} else {			
+		/************************************************************************/
+		/*        Simulation for a random bit stream Deleted for Final          */
+		/************************************************************************/	
+		switch(Chaos_data){
+			case 3:
+				debug_gen = 3;
+				break;
+			default:
+				debug_gen = 0;
+				break;
+		/************************************************************************/
+		/*        END OF SIMULATION                                             */
+		/************************************************************************/
+		}
+		//debug_gen = 0;   //Nur Für Testzwecke ChaosData auskommentiert! Kann später wieder gewechselt werden
 		pSendbuffer = 0;
 	}
 }
