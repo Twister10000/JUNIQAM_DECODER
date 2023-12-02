@@ -302,24 +302,18 @@ void analyzediff(void){
 		}
 		k++;
 		switch(k){
-			case 62: //Wert noch anpassen working 60
+			case 62: //Wert noch anpassen working 62
 				k = 0;
 				
 				for (int i = 0; i < 62; i++)
 				{
 					receivebuffer[i] = 0; //Mutex!
 				}
-// 				receivebuffer[0] = 0;
-// 				receivebuffer[1] = 0;
-// 				receivebuffer[2] = 0;
-// 				receivebuffer[3] = 0;
-				
+			
 				debug++;
-				//Code für neuen Start
+
 				break;
-// 			case 56:
-// 				vTaskDelay(2/portTICK_RATE_MS);
-// 				break;
+
 		}	
 		
 }
