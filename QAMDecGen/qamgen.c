@@ -67,30 +67,32 @@ void createSendData() { /* Eine Beispiel funktion für die Erstellung der Sendeda
 	char senddata[10] = "HelloWorld";
 	uint8_t datalen = strlen(senddata); 
 	//MetaInfos werden übermittelt
-	sendbuffer[0] = 3;
+	sendbuffer[0] = 0;
 	sendbuffer[1] = 3;
-	sendbuffer[2] = sendID & 0x03;
-	sendbuffer[3] = (sendID >> 2) & 0x03;
-	sendbuffer[4] = (datalen >> 0) & 0x03;
-	sendbuffer[5] = (datalen >> 2) & 0x03;
-	sendbuffer[6] = (datalen >> 4) & 0x03;
-	sendbuffer[7] = (datalen >> 6) & 0x03;
+	sendbuffer[2] = 0;
+	sendbuffer[3] = 3;
+	sendbuffer[4] = sendID & 0x03;
+	sendbuffer[5] = (sendID >> 2) & 0x03;
+	sendbuffer[6] = (datalen >> 0) & 0x03;
+	sendbuffer[7] = (datalen >> 2) & 0x03;
+	sendbuffer[8] = (datalen >> 4) & 0x03;
+	sendbuffer[9] = (datalen >> 6) & 0x03;
 	for(int i = 0; i < datalen;i++) { //Die Daten werden in zweier Paare nacheinander in das Sendbuffer eingeschrieben
-		sendbuffer[8 + i*4 + 0] = (senddata[i] >> 0) & 0x03;
-		sendbuffer[8 + i*4 + 1] = (senddata[i] >> 2) & 0x03;
-		sendbuffer[8 + i*4 + 2] = (senddata[i] >> 4) & 0x03;
-		sendbuffer[8 + i*4 + 3] = (senddata[i] >> 6) & 0x03;
+		sendbuffer[10 + i*4 + 0] = (senddata[i] >> 0) & 0x03;
+		sendbuffer[10 + i*4 + 1] = (senddata[i] >> 2) & 0x03;
+		sendbuffer[10 + i*4 + 2] = (senddata[i] >> 4) & 0x03;
+		sendbuffer[10 + i*4 + 3] = (senddata[i] >> 6) & 0x03;
 	}
 	uint8_t checksum = 0;
-	for(int i = 0; i < 8 + (datalen * 4); i++) {
+	for(int i = 0; i < 10 + (datalen * 4); i++) {
 		checksum += sendbuffer[i]; // Alle Elemente von Sendbuffer werden zusammengerrechnet.
 	}
-	sendbuffer[8 + (datalen * 4) + 0] = 0;  //Die Checksume wird auf 2bit Paare aufgeteilt
-	sendbuffer[8 + (datalen * 4) + 1] = 1;
-	sendbuffer[8 + (datalen * 4) + 2] = 2;
-	sendbuffer[8 + (datalen * 4) + 3] = 3;
-	sendbuffer[8 + (datalen * 4) + 4] = 2;
-	sendbuffer[8 + (datalen * 4) + 5] = 1;
+	sendbuffer[10 + (datalen * 4) + 0] = 0;  //Die Checksume wird auf 2bit Paare aufgeteilt
+	sendbuffer[10 + (datalen * 4) + 1] = 1;
+	sendbuffer[10 + (datalen * 4) + 2] = 2;
+	sendbuffer[10 + (datalen * 4) + 3] = 3;
+// 	sendbuffer[10 + (datalen * 4) + 4] = 2;
+// 	sendbuffer[10 + (datalen * 4) + 5] = 1;
 	
 }
 
