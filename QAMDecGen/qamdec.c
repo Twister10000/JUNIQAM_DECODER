@@ -311,7 +311,19 @@ void analyzediff(void){
 				}
 			
 				debug++;
-
+				break;
+			case 4:
+				
+				if (!((receivebuffer[0] == 0) && (receivebuffer[1] == 3) && (receivebuffer[2] == 0) && (receivebuffer[3] == 3))) //Gesammte Päckchen Anzahl muss durch 4 Sauber geteitl werden können
+				{
+					k = 0;
+					for (int i = 0; i < 4; i++)
+					{
+						receivebuffer[i] = 0;
+					}
+				}
+				
+				
 				break;
 
 		}	
