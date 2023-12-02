@@ -36,14 +36,14 @@ const int16_t Impuls4[NR_OF_SAMPLES] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 
 										0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x18F,0x30F,0x471,0x5A7, 0x5A7, 0x471, 0x30F, 0x18F,};
 
 
-#define SENDBUFFER_SIZE 61 //Working 61
+#define SENDBUFFER_SIZE 29 //Working 61
 
 uint8_t sendbuffer[100] = {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
 uint8_t sendID = 0;
 void createSendData() { /* Eine Beispiel funktion für die Erstellung der Sendedaten. */
 	sendID++;
 	
-	char senddata[10] = "HelloWorld";
+	char senddata[10] = "HALO";
 	uint8_t datalen = strlen(senddata); 
 	//MetaInfos werden übermittelt
 	sendbuffer[0] = 0;
