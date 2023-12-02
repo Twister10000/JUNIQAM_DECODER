@@ -305,7 +305,7 @@ void analyzediff(void){
 			case 60: //Wert noch anpassen working 60
 				k = 0;
 				
-				for (int i = 0; i < 59; i++)
+				for (int i = 0; i < 60; i++)
 				{
 					receivebuffer[i] = 0;
 				}

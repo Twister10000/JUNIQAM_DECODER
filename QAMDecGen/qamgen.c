@@ -82,13 +82,13 @@ void createSendData() { /* Eine Beispiel funktion für die Erstellung der Sendeda
 		sendbuffer[8 + i*4 + 3] = (senddata[i] >> 6) & 0x03;
 	}
 	uint8_t checksum = 0;
-	for(int i = 0; i < 7 + (datalen * 4); i++) {
+	for(int i = 0; i < 8 + (datalen * 4); i++) {
 		checksum += sendbuffer[i]; // Alle Elemente von Sendbuffer werden zusammengerrechnet.
 	}
-	sendbuffer[7 + (datalen * 4) + 0] = (checksum >> 0) & 0x03;  //Die Checksume wird auf 2bit Paare aufgeteilt
-	sendbuffer[7 + (datalen * 4) + 1] = (checksum >> 2) & 0x03;
-	sendbuffer[7 + (datalen * 4) + 2] = (checksum >> 4) & 0x03;
-	sendbuffer[7 + (datalen * 4) + 3] = (checksum >> 6) & 0x03;
+	sendbuffer[8 + (datalen * 4) + 0] = 0;  //Die Checksume wird auf 2bit Paare aufgeteilt
+	sendbuffer[8 + (datalen * 4) + 1] = 1;
+	sendbuffer[8 + (datalen * 4) + 2] = 2;
+	sendbuffer[8 + (datalen * 4) + 3] = 3;
 	
 }
 
