@@ -36,7 +36,7 @@ const int16_t Impuls4[NR_OF_SAMPLES] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 
 										0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x18F,0x30F,0x471,0x5A7, 0x5A7, 0x471, 0x30F, 0x18F,};
 
 
-#define SENDBUFFER_SIZE 29 //Working 61
+#define SENDBUFFER_SIZE 29 //Working 29
 
 uint8_t sendbuffer[100] = {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
 uint8_t sendID = 0;
@@ -85,6 +85,18 @@ void vQuamGen(void *pvParameters) { /*Task selber. Nur Delays Es wird alles über
 			case 0:
 				createSendData();
 				debug_gen = 1;
+				break;
+			/*Simulation for a random bit stream Deleted for Final*/
+			case 3:
+				
+				for(int i = 0; i < 29; i++){
+				
+					sendbuffer[i] = rand()%3;
+				
+				}
+				
+				
+				
 				break;
 		}
 		vTaskDelay(1/portTICK_RATE_MS);
