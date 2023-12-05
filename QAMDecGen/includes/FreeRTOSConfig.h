@@ -82,6 +82,8 @@
 #define configUSE_16_BIT_TICKS			0
 #define configIDLE_SHOULD_YIELD			1
 #define configCHECK_FOR_STACK_OVERFLOW	2
+#define configSUPPORT_DYNAMIC_ALLOCATION 1
+#define configUSE_MUTEXES				1
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES 		1
