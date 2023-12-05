@@ -25,6 +25,7 @@
 #include "qaminit.h"
 #include "qamdec.h"
 #include "string.h"
+#include "main.h"
 /*Defines*/
 #define quarterjump1 7
 #define quarterjump2 8 //Perfekt für Sync Weil diese Sprünge nur in einem Fall auftreten können 3 -> 0
@@ -60,7 +61,7 @@
 QueueHandle_t decoderQueue;
 
 /*Array Init*/
-uint16_t ringbuffer[256]; //Array nicht Global erstellen
+extern uint16_t ringbuffer[256]; //Array nicht Global erstellen
 uint8_t receivebuffer[50];
 uint8_t maxpos[2];
 
@@ -80,8 +81,8 @@ uint8_t calculatedChecksum = 0; // Variable für die berechnete Checksumme
 float reconstructedFloat;
 
 /*Pointer Init*/
-uint16_t * p_Writing = &ringbuffer[0];
-uint16_t * p_Reading = &ringbuffer[0];
+extern uint16_t * p_Writing = &ringbuffer[0];
+extern uint16_t * p_Reading = &ringbuffer[0];
 uint8_t * p_MAXPOS1r = &maxpos[0];
 uint8_t * p_MAXPOS2r = &maxpos[1];
 
