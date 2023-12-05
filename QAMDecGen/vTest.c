@@ -238,6 +238,10 @@ void vTest(void *pvParameters){
 	
 	for (;;)
 	{ /*Data ist eine Biilig Counting Semaphore weill ich noch keines erstellen konnte 05.12.2023*/
+		if (data >= 7)
+		{
+			debug++;
+		}
 		if( data >> 0 ) // if( xSemaphoreTake( CountingSemaphore, ( TickType_t ) 10 ) == pdTRUE )
 		{ //if (((p_Writing - p_Reading)%32) == 0) //Überprüfen öb == sinnvoll ist eher >=. Mehr als 32 Wert vorraus
 					--data;		//Letztes Byte als Zähl Variabel nutzen
