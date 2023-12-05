@@ -137,7 +137,7 @@ void vQuamGen(void *pvParameters) {
 				sendbuffer[0] = 0;
 				for(int i = 1; i < 31; i++){
 				
-					sendbuffer[i] = rand()%3;
+					sendbuffer[i] = rand()%2;
 				
 				}
 				Chaos_data++;

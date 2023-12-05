@@ -8,11 +8,17 @@
 
 #ifndef MAIN_H_
 #define MAIN_H_
+#include "semphr.h"
 
+extern SemaphoreHandle_t CountingSemaphore;
 
-uint16_t ringbuffer[256];
-uint16_t * p_Writing;
-uint16_t * p_Reading;
+extern uint16_t ringbuffer[256];
+extern uint16_t * p_Writing;
+extern uint16_t * p_Reading;
+extern uint8_t j;
+extern uint16_t Ringbuffer_Pos;
+
+extern uint8_t data;
 
 
 #endif /* MAIN_H_ */
