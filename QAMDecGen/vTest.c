@@ -29,7 +29,7 @@
 #include "main.h"
 
 #define quarterjump1 7
-#define quarterjump2 8 //Perfekt für Sync Weil diese Sprünge nur in einem Fall auftreten können 3 -> 0
+#define quarterjump2 8 //Perfekt fï¿½r Sync Weil diese Sprï¿½nge nur in einem Fall auftreten kï¿½nnen 3 -> 0
 #define quarterjump3 9
 
 #define halfjump1 15
@@ -53,7 +53,7 @@
 #define onehalfjump3 49
 
 #define onethreequartersjump1 55
-#define onethreequartersjump2 56 //Perfekt für Sync Weil diese Sprünge nur in einem Fall auftreten können 0 -> 3
+#define onethreequartersjump2 56 //Perfekt fï¿½r Sync Weil diese Sprï¿½nge nur in einem Fall auftreten kï¿½nnen 0 -> 3
 #define onethreequartersjump3 57
 
 uint8_t receivebuffer[50];
@@ -74,7 +74,7 @@ uint8_t debug = 0;
 uint8_t symbol = 0;
 
 uint8_t checksumGL = 0; // Initialisierung der Checksumme
-uint8_t calculatedChecksum = 0; // Variable für die berechnete Checksumme
+uint8_t calculatedChecksum = 0; // Variable fï¿½r die berechnete Checksumme
 float reconstructedFloat;
 
 
@@ -242,12 +242,12 @@ void vTest(void *pvParameters){
 		{
 			debug++;
 		}
-		if( data >> 0 ) // if( xSemaphoreTake( CountingSemaphore, ( TickType_t ) 10 ) == pdTRUE )
-		{ //if (((p_Writing - p_Reading)%32) == 0) //Überprüfen öb == sinnvoll ist eher >=. Mehr als 32 Wert vorraus
-					--data;		//Letztes Byte als Zähl Variabel nutzen
+		while(data > 0) // if( xSemaphoreTake( CountingSemaphore, ( TickType_t ) 10 ) == pdTRUE )
+		{ //if (((p_Writing - p_Reading)%32) == 0) //ï¿½berprï¿½fen ï¿½b == sinnvoll ist eher >=. Mehr als 32 Wert vorraus
+					--data;		//Letztes Byte als Zï¿½hl Variabel nutzen
 					for (int i = 0; i < 32; i++)
 					{
-						if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte müssen angepasst werden mit den Werten von Merlin
+						if ((*p_Reading > *(p_Reading-1)) && *p_Reading > 1300) //Werte mï¿½ssen angepasst werden mit den Werten von Merlin
 						{
 							max = *p_Reading; //Bei der 3.ten Nachricht will das Programm hier nicht mehr reingehen weil die Pointeradressen nicht mehr sauber durch 32 teilbar sind
 							*p_MAXPOS2r = j;
@@ -271,7 +271,7 @@ void vTest(void *pvParameters){
 					break;
 				}
 				}
-		vTaskDelay(1/portTICK_RATE_MS);
+		vTaskDelay(2/portTICK_RATE_MS);
 	}
 	
 }
@@ -282,10 +282,10 @@ void analyzediff(){
 	byteArray[1] = 0b00101000;
 	byteArray[2] = 0b00010110;
 	byteArray[3] = 0b01000010;
-	//Schleife erstellen für die Grosse von unserem Paket: Im Testfall sind es 58 Elemente
+	//Schleife erstellen fï¿½r die Grosse von unserem Paket: Im Testfall sind es 58 Elemente
 	//Nach schleife den Sync Modus wieder starten.
 	switch(Offset){ // Startwert ist 3
-		case quarterjump1: //Cases zusammenführen für weniger zeilen code!! case1:case2:case3: Code break;
+		case quarterjump1: //Cases zusammenfï¿½hren fï¿½r weniger zeilen code!! case1:case2:case3: Code break;
 		quarterjump(); //Wenn man zu oft hier landet kann man beim Offset noch +1 dazurechnen
 		break;
 		case quarterjump2:
@@ -349,7 +349,7 @@ void analyzediff(){
 		onethreequartersjump();
 		break;
 		default:
-		//Code für Resett einbauen
+		//Code fï¿½r Resett einbauen
 		break;
 	}
 	k++;
@@ -395,7 +395,7 @@ void analyzediff(){
 		break;
 		case 4:
 		
-		if (!((receivebuffer[0] == 0) && (receivebuffer[1] == 3) && (receivebuffer[2] == 0) && (receivebuffer[3] == 3))) //Gesammte Päckchen Anzahl muss durch 4 Sauber geteitl werden können
+		if (!((receivebuffer[0] == 0) && (receivebuffer[1] == 3) && (receivebuffer[2] == 0) && (receivebuffer[3] == 3))) //Gesammte Pï¿½ckchen Anzahl muss durch 4 Sauber geteitl werden kï¿½nnen
 		{
 			k = 0;
 			for (int i = 0; i < 4; i++)
