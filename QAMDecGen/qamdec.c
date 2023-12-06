@@ -83,10 +83,10 @@ void vQuamDec(void* pvParameters)
 						p_Writing = &ringbuffer[0]; 
 
 					}
-			} //Klammer While
-		} //Klammer For
+			} //Klammer IF
+		} //Klammer While
 		vTaskDelay( 2 / portTICK_RATE_MS );
-	}
+	}//Klammer For
 }
 
 
