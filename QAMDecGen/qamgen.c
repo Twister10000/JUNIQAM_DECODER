@@ -134,7 +134,7 @@ void vQuamGen(void *pvParameters) {
 			/*        Simulation for a random bit stream Deleted for Final          */
 			/************************************************************************/
 			case 0:
-				sendbuffer[0] = 0;
+				sendbuffer[0] = 3;
 				for(int i = 1; i < 31; i++){
 				
 					sendbuffer[i] = rand()%2;

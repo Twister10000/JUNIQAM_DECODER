@@ -31,14 +31,23 @@
 #define quarterjump1 7
 #define quarterjump2 8 //Perfekt f�r Sync Weil diese Spr�nge nur in einem Fall auftreten k�nnen 3 -> 0
 #define quarterjump3 9
+#define quarterjump4 10
+#define quarterjump5 11
+#define quarterjump6 12
 
 #define halfjump1 15
 #define halfjump2 16
 #define halfjump3 17
+#define halfjump4 18
+#define halfjump5 19
+#define halfjump6 20
 
 #define threequartersjump1 23
 #define threequartersjump2 24
 #define threequartersjump3 25
+#define threequartersjump4 26
+#define threequartersjump5 27
+#define threequartersjump6 28
 
 #define fulljump1 31
 #define fulljump2 32
@@ -255,6 +264,13 @@ void vTest(void *pvParameters){
 						p_Reading++;
 						j++;
 					}
+					switch(max){
+						
+						case 0:
+							j = 0;
+							break;
+						
+					}
 					Offset = *p_MAXPOS2r - *p_MAXPOS1r;
 					*p_MAXPOS1r = *p_MAXPOS2r;
 				if (p_Reading == p_Max)
@@ -294,6 +310,15 @@ void analyzediff(){
 		case quarterjump3:
 		quarterjump();
 		break;
+		case quarterjump4:
+		quarterjump();
+		break;
+		case quarterjump5:
+		quarterjump();
+		break;
+		case quarterjump6:
+		quarterjump();
+		break;
 		case halfjump1:
 		halfjump();
 		break;
@@ -303,6 +328,15 @@ void analyzediff(){
 		case halfjump3:
 		halfjump();
 		break;
+		case halfjump4:
+		halfjump();
+		break;
+		case halfjump5:
+		halfjump();
+		break;
+		case halfjump6:
+		halfjump();
+		break;
 		case threequartersjump1:
 		threequartersjump();
 		break;
@@ -310,6 +344,15 @@ void analyzediff(){
 		threequartersjump();
 		break;
 		case threequartersjump3:
+		threequartersjump();
+		break;
+		case threequartersjump4:
+		threequartersjump();
+		break;
+		case threequartersjump5:
+		threequartersjump();
+		break;
+		case threequartersjump6:
 		threequartersjump();
 		break;
 		case fulljump1:
