@@ -25,10 +25,16 @@
 #include "stdio.h"
 #include "string.h"
 
+#include "math.h"
+#include "LSM9DS1Defines.h"
+#include "LSM9DS1Driver.h"
+#include "twiMaster.h"
+
 uint8_t Chaos_data = 0; //Nur Für Testzwecke ChaosData! Kann später Gelöscht werden
 uint8_t sendbuffer[50] = {4,4,4,4,4,4,4,4};
 uint8_t sendID = 0;
 uint8_t debug_gen = 0;
+float temparatur = 0;
 
 const int16_t Impuls1[NR_OF_SAMPLES] = {0x148, 0x355, 0x5C1, 0x7FF, 0x7FF, 0x5C1, 0x355, 0x148, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,};
@@ -52,21 +58,15 @@ void printBinary(unsigned char byte) {
 }
 
 int createBinary() {
-	float floatValue = 37.54;      //float vom Temp.-Sensor
-
+	
 	// Verwendung eines Zeigers und Typumwandlung, um float in 4-Byte-Array zu konvertieren
-	unsigned char *ptr = (unsigned char*)&floatValue;
+	unsigned char *ptr = (unsigned char*)&temparatur;
 
 	// Kopieren der Bytes von float in das Array
 	for (int i = 0; i < sizeof(float); ++i) {
 		byteArray[i] = *(ptr + i);
 	}
 
-	// 	// Ausgabe des Original-Float-Werts
-	// 	printf("Float-Wert: %f\n", floatValue);
-	//
-	// 	// Ausgabe der Repräsentation des 4-Byte-Arrays in binärer Form
-	// 	printf("Byte-Array-Repraaesentation (binaer): ");
 	for (int i = 0; i < sizeof(float); ++i) {
 		printBinary(byteArray[i]);
 	}
@@ -117,14 +117,32 @@ void vQuamGen(void *pvParameters) {
 	xEventGroupWaitBits(evDMAState, DMAGENREADY, false, true, portMAX_DELAY);
 	int BinaryCounter = 0;
 	for(;;) {
-		if (BinaryCounter == 0)	{
-			printBinary(byteArray[4]);
-			createBinary();
-			BinaryCounter = 4;
+		
+		switch(BinaryCounter){
+			
+			case 0:
+				readTempData();
+				temparatur =  getTemperatureData();
+				printBinary(byteArray[4]);
+				createBinary();
+				BinaryCounter = 4;
+				break;
+			default:
+				BinaryCounter--;
+				break;
+			
 		}
-		else{
-			BinaryCounter --;
-		}
+		
+// 		if (BinaryCounter == 0)	{
+// 			readTempData();
+// 			temparatur =  getTemperatureData();
+// 			printBinary(byteArray[4]);
+// 			createBinary();
+// 			BinaryCounter = 4;
+// 		}
+// 		else{
+// 			BinaryCounter --;
+// 		}
 		switch(debug_gen)
 		{case 3: // Nur Für Testzwecke ChaosData! Kann später von 3 zu 0 getauscht werden
 				createSendData();

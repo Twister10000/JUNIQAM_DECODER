@@ -275,6 +275,12 @@
     <Compile Include="includes\init.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="includes\LSM9DS1Defines.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="includes\LSM9DS1Driver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="includes\main.h">
       <SubType>compile</SubType>
     </Compile>
@@ -293,6 +299,9 @@
     <Compile Include="includes\qaminit.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="includes\twiMaster.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="includes\utils.h">
       <SubType>compile</SubType>
     </Compile>
@@ -300,6 +309,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="init.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="LSM9DS1Driver.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
@@ -318,6 +330,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="qaminit.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="twiMaster.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="utils.c">

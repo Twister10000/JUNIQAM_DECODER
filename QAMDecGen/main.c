@@ -56,6 +56,8 @@ int main(void)
 	initADCTimer();
 	initDecDMA();
 	
+	LSM9DS1Init();
+	
 	xTaskCreate(vQuamGen, NULL, configMINIMAL_STACK_SIZE+500, NULL, 2, NULL);
 	xTaskCreate(vQuamDec, NULL, configMINIMAL_STACK_SIZE+400, NULL, 2, NULL);
 	xTaskCreate(vTest, NULL, configMINIMAL_STACK_SIZE+400, NULL, 1, NULL);
