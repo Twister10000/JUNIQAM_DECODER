@@ -132,17 +132,6 @@ void vQuamGen(void *pvParameters) {
 				break;
 			
 		}
-		
-// 		if (BinaryCounter == 0)	{
-// 			readTempData();
-// 			temparatur =  getTemperatureData();
-// 			printBinary(byteArray[4]);
-// 			createBinary();
-// 			BinaryCounter = 4;
-// 		}
-// 		else{
-// 			BinaryCounter --;
-// 		}
 		switch(debug_gen)
 		{case 3: // Nur Für Testzwecke ChaosData! Kann später von 3 zu 0 getauscht werden
 				createSendData();
