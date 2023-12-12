@@ -30,6 +30,8 @@
 #include "LSM9DS1Driver.h"
 #include "twiMaster.h"
 
+TickType_t old_time, new_time;
+
 uint8_t Chaos_data = 0; //Nur Für Testzwecke ChaosData! Kann später Gelöscht werden
 uint8_t sendbuffer[50] = {4,4,4,4,4,4,4,4};
 uint8_t sendID = 0;
@@ -118,20 +120,20 @@ void vQuamGen(void *pvParameters) {
 	int BinaryCounter = 0;
 	for(;;) {
 		
-		switch(BinaryCounter){
+// 		switch(BinaryCounter){
+// 			
+// 			case 0:
+// // 				readTempData();
+// // 				temparatur =  getTemperatureData();
+// // 				printBinary(byteArray[4]);
+// // 				createBinary();
+// 				BinaryCounter = 4;
+// 				break;
+// 			default:
+// 				BinaryCounter--;
+// 				break;
 			
-			case 0:
-				readTempData();
-				temparatur =  getTemperatureData();
-				printBinary(byteArray[4]);
-				createBinary();
-				BinaryCounter = 4;
-				break;
-			default:
-				BinaryCounter--;
-				break;
-			
-		}
+		//}
 		switch(debug_gen)
 		{case 3: // Nur Für Testzwecke ChaosData! Kann später von 3 zu 0 getauscht werden
 				createSendData();
@@ -159,6 +161,16 @@ void vQuamGen(void *pvParameters) {
 			/************************************************************************/
 			/*        END OF SIMULATION                                             */
 			/************************************************************************/
+		}
+		if (new_time - old_time >= 1000)
+		{
+			 				readTempData();
+			 				temparatur =  getTemperatureData();
+			 				printBinary(byteArray[4]);
+			 				createBinary();
+							old_time = new_time;
+		}else{
+			new_time = xTaskGetTickCount();
 		}
 		vTaskDelay(1/portTICK_RATE_MS);
 	}
