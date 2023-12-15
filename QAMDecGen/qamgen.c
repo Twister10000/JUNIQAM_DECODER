@@ -144,11 +144,16 @@ void vQuamGen(void *pvParameters) {
 			/************************************************************************/
 			case 0:
 				sendbuffer[0] = 3;
-				for(int i = 1; i < 31; i++){
-				
-					sendbuffer[i] = rand()%2;
-				
-				}
+					for (int i = 0; i < 32; i = ++i)
+					{
+						sendbuffer[i] = 0;
+						sendbuffer[++i] = 3;
+					}
+// 				for(int i = 1; i < 31; i++){
+// 				
+// 					sendbuffer[i] = rand()%3;
+// 				
+// 				}
 				Chaos_data++;
 				switch(Chaos_data){
 					
