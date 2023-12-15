@@ -243,6 +243,20 @@ void vTest(void *pvParameters){
 	for (;;)
 	{ /*Data ist eine Biilig Counting Semaphore weill ich noch keines erstellen konnte 05.12.2023*/
 		
+		if (((write_pos & BitMask) - (read_pos & BitMask)) >= 45 )
+		{
+			for (int i = 0; i < 45; ++i)
+			{
+				Doppel++;
+				if ((ringbuffer[read_pos & BitMask] > 2000) && (Doppel >= 3))
+				{
+					syncpos[n] = (read_pos & BitMask);
+					n++;
+					Doppel = 0;
+				}
+				read_pos++;
+			}
+		}
 		
 		vTaskDelay(2/portTICK_RATE_MS);
 	} // FOR ;; Klammer
