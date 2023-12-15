@@ -28,6 +28,8 @@
 #include "string.h"
 #include "main.h"
 
+#define BitMask 0x00FF
+
 #define quarterjump1 7
 #define quarterjump2 8 //Perfekt f�r Sync Weil diese Spr�nge nur in einem Fall auftreten k�nnen 3 -> 0
 #define quarterjump3 9
