@@ -170,7 +170,7 @@ void vQuamGen(void *pvParameters) {
 		if (new_time - old_time >= 1000)
 		{
 			 				readTempData();
-			 				temparatur =  getTemperatureData();
+			 				temparatur =  37.54;//getTemperatureData();
 			 				printBinary(byteArray[4]);
 			 				createBinary();
 							old_time = new_time;
