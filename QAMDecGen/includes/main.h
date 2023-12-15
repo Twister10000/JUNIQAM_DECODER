@@ -13,11 +13,9 @@
 extern SemaphoreHandle_t CountingSemaphore;
 
 extern uint16_t ringbuffer[256];
-extern uint16_t * p_Writing;
-extern uint16_t * p_Reading;
-extern uint8_t j;
-extern uint16_t Ringbuffer_Pos;
 
+extern uint16_t read_pos;
+extern uint16_t write_pos;
 extern uint8_t data;
 
 
