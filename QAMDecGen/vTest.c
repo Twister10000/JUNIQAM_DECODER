@@ -247,17 +247,17 @@ void vTest(void *pvParameters){
 		{
 			for (int i = 0; i < 45; ++i)
 			{
-				Doppel++;
-				if ((ringbuffer[read_pos & BitMask] > 2000) && (Doppel >= 3))
+				
+				if ((ringbuffer[read_pos & BitMask] > 2000) && (Doppel >= 2))
 				{
 					syncpos[n] = (read_pos & BitMask);
 					n++;
 					Doppel = 0;
 				}
 				read_pos++;
+				Doppel++;
 			}
 		}
-		
 		vTaskDelay(2/portTICK_RATE_MS);
 	} // FOR ;; Klammer
 }
