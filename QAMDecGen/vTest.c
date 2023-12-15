@@ -70,7 +70,7 @@
 uint8_t receivebuffer[50];
 
 uint8_t lastnumber = 0;
-uint8_t Offset = 0;
+/*uint8_t Offset = 0;*/
 uint8_t k = 0;
 uint16_t read_pos = 0;
 
@@ -230,7 +230,7 @@ void onethreequartersjump(void){
 	}
 }
 
-void analyzediff();
+void analyzediff(uint8_t Offset);
 
 void vTest(void *pvParameters){
 	
@@ -270,7 +270,7 @@ void vTest(void *pvParameters){
 	} // FOR ;; Klammer
 }
 
-void analyzediff(){
+void analyzediff(uint8_t Offset){
 
 	uint8_t symbol = 0;
 	switch(Offset){ // Startwert ist 3
