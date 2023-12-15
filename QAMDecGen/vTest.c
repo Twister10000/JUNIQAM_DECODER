@@ -70,8 +70,9 @@
 uint8_t receivebuffer[50];
 
 uint8_t lastnumber = 0;
-uint8_t k = 0;
 uint8_t Offset = 0;
+uint8_t k = 0;
+uint16_t read_pos = 0;
 
 uint8_t checksumGL = 0; // Initialisierung der Checksumme
 uint8_t calculatedChecksum = 0; // Variable f�r die berechnete Checksumme
@@ -233,6 +234,10 @@ void analyzediff();
 
 void vTest(void *pvParameters){
 	
+	int16_t syncpos[10] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+	uint8_t n = 0; // Nicht Best Practise Provisorium!!
+	uint8_t Doppel = 0; // Nicht Best Practise Provisorium!!
+	
 	(void) pvParameters;
 	
 	for (;;)
@@ -240,7 +245,7 @@ void vTest(void *pvParameters){
 		
 		
 		vTaskDelay(2/portTICK_RATE_MS);
-	}
+	} // FOR ;; Klammer
 }
 
 void analyzediff(){
