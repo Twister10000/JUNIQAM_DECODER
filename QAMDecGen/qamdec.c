@@ -45,9 +45,8 @@ uint16_t ringbuffer[256]; //Array nicht Global erstellen
 
 
 /*Pointer Init*/
-uint16_t * p_Writing = &ringbuffer[0];
-uint16_t * p_Reading = &ringbuffer[0];
-uint8_t data = 0;
+
+
 
 
 
@@ -70,19 +69,9 @@ void vQuamDec(void* pvParameters)
 			if(xQueueReceive(decoderQueue, &bufferelement[0], portMAX_DELAY) == pdTRUE) {
 				for (int i = 0; i < 32; i++) // Die Werte von der Queue werden in das Ringbuffer geschrieben
 				{
-					*p_Writing = bufferelement[i];
-					p_Writing++;
-					Ringbuffer_Pos++;
+
 					//Differenz Wert
 				}
-				data++;
-				/*xSemaphoreGive(TestSemaphore);*/
-				if(Ringbuffer_Pos == 256) //% Operator | Bits maskieren!? Ringbuffer 0/256 == 0
-					{
-						Ringbuffer_Pos = 0;
-						p_Writing = &ringbuffer[0]; 
-
-					}
 			} //Klammer IF
 		} //Klammer While
 		vTaskDelay( 2 / portTICK_RATE_MS );

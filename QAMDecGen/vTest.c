@@ -28,9 +28,6 @@
 #include "string.h"
 #include "main.h"
 
-#define SYNC_MODE 73
-#define DATA_MODE 74
-
 #define quarterjump1 7
 #define quarterjump2 8 //Perfekt f�r Sync Weil diese Spr�nge nur in einem Fall auftreten k�nnen 3 -> 0
 #define quarterjump3 9
@@ -69,35 +66,17 @@
 #define onethreequartersjump3 57
 
 uint8_t receivebuffer[50];
-uint8_t syncpos[10];
-uint8_t maxpos[2];
 
-uint16_t max = 0;
-uint8_t master_offset = 32;
-uint8_t diff_offset = 0;
-uint8_t Offset = 0;
-uint8_t syncoffset1 = 0;
-uint8_t syncoffset2 = 0;
-uint8_t syncoffset3 = 0;
-uint8_t Mode = SYNC_MODE;
 uint8_t lastnumber = 0;
-uint16_t Ringbuffer_Pos = 0;
-uint8_t n = 0;
-
-uint16_t * p_Max = &ringbuffer[256];
-
-uint8_t j = 0;
 uint8_t k = 0;
-uint8_t debug = 0;
-uint8_t symbol = 0;
+uint8_t Offset = 0;
 
 uint8_t checksumGL = 0; // Initialisierung der Checksumme
 uint8_t calculatedChecksum = 0; // Variable f�r die berechnete Checksumme
 float reconstructedFloat;
 
 
-uint8_t * p_MAXPOS1r = &maxpos[0];
-uint8_t * p_MAXPOS2r = &maxpos[1];
+
 
 void quarterjump(void){
 	switch(lastnumber){
@@ -256,106 +235,15 @@ void vTest(void *pvParameters){
 	
 	for (;;)
 	{ /*Data ist eine Biilig Counting Semaphore weill ich noch keines erstellen konnte 05.12.2023*/
-		if (data >= 7)
-		{
-			debug++;
-		}
-		while(data > 0) // if( xSemaphoreTake( CountingSemaphore, ( TickType_t ) 10 ) == pdTRUE )
-		{
-			--data;		//Letztes Byte als Z�hl Variabel nutzen
-				for (int i = 0; i < 32; i++)
-					{				
-						if (p_Reading == p_Max){
-							j = 0;
-							p_Reading = &ringbuffer[0];
-						}
-						
-						if(*p_Reading > 2000){
-							syncpos[n] = j;
-							n++;
-						}
-						p_Reading++;
-						j++;
-					}
-// 					Offset = *p_MAXPOS2r - *p_MAXPOS1r;
-// 					*p_MAXPOS1r = *p_MAXPOS2r;
-				if(n == 10){
-					n = 0;
-				}
-				switch(Mode){
-					case SYNC_MODE:
-						/************************************************************************/
-						/* Start vom Sync Modus Teil                                            */
-						/************************************************************************/
-						if (n == 8)
-						{
-							syncoffset1 = syncpos[2] - syncpos[0];
-							syncoffset2 = syncpos[5] - syncpos[3];
-							syncoffset3 = syncpos[7] - syncpos[5]; //Wert bei Syncpos[7] ist eine 3!
-							
-							if (syncoffset1 == 56 && syncoffset2 == 8 && syncoffset3 == 56)
-							{
-								p_Reading =	&ringbuffer[syncpos[7] + 4];
-								maxpos[0] = 1;
-								lastnumber = 3;
-								syncpos[0] = syncpos[7];
-								n = 2;
-								syncoffset1 = 0;
-								syncoffset2 = 0;
-								syncoffset3 = 0;
-								k = 4;
-								receivebuffer[0] = 0;
-								receivebuffer[1] = 3;
-								receivebuffer[2] = 0;
-								receivebuffer[3] = 3;
-								Mode = DATA_MODE; //Code für Modus Wechsel Sync -> Data
-							}else{
-								n = 0;
-							}
-						}
-						/************************************************************************/
-						/* Schluss vom Sync Modus Teil                                          */
-						/************************************************************************/
-						break;
-					case DATA_MODE:
-						if (n == 4)
-						{
-						
-						Offset = syncpos[2] - syncpos[0];
-						syncpos[0] = syncpos[2];
-						n = 2;
-						analyzediff();
-						}
-						break;
-					
-					
-				}
-				//Offset = syncpos[2] - syncpos [0];
-// 				if (p_Reading == p_Max)
-// 				{
-// 					j = 0;
-// 					p_Reading = &ringbuffer[0];
-// 				}
-// 				switch(maxpos[0]){
-// 					case 0:
-// 					break;
-// 					default:
-// 					analyzediff(); //Start vom Analyze Teil
-// 					break;
-// 				}
-			}
+		
+		
 		vTaskDelay(2/portTICK_RATE_MS);
 	}
 }
 
 void analyzediff(){
-		//Array vom ADC
-// 	byteArray[0] = 0b11110110;
-// 	byteArray[1] = 0b00101000;
-// 	byteArray[2] = 0b00010110;
-// 	byteArray[3] = 0b01000010;
-	//Schleife erstellen f�r die Grosse von unserem Paket: Im Testfall sind es 58 Elemente
-	//Nach schleife den Sync Modus wieder starten.
+
+	uint8_t symbol = 0;
 	switch(Offset){ // Startwert ist 3
 		case quarterjump1: //Cases zusammenf�hren f�r weniger zeilen code!! case1:case2:case3: Code break;
 		quarterjump(); //Wenn man zu oft hier landet kann man beim Offset noch +1 dazurechnen
@@ -483,7 +371,7 @@ void analyzediff(){
 		if (calculatedChecksum == checksumGL) {
 			 //Schluss vom Analyze Teil
 			//CODE Für TEMP Auslesen!	
-			Mode = SYNC_MODE;
+
 			
 		}
 		
@@ -493,22 +381,8 @@ void analyzediff(){
 		}
 
 		checksumGL = 0;
-		debug++;
-		n = 0;
-		Mode = SYNC_MODE;
-		
+
 		break;
-// 		case 4:
-// 		
-// 		if (!((receivebuffer[0] == 0) && (receivebuffer[1] == 3) && (receivebuffer[2] == 0) && (receivebuffer[3] == 3))) //Gesammte P�ckchen Anzahl muss durch 4 Sauber geteitl werden k�nnen
-// 		{
-// 			k = 0;
-// 			for (int i = 0; i < 4; i++)
-// 			{
-// 				receivebuffer[i] = 0;
-// 			}
-// 		}
-// 		break;
 
 	}
 }
