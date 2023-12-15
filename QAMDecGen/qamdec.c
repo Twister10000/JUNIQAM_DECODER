@@ -41,6 +41,7 @@ uint16_t ringbuffer[256]; //Array nicht Global erstellen
 
 
 /*Var Init*/
+uint16_t write_pos = 0;
 
 
 
@@ -69,8 +70,8 @@ void vQuamDec(void* pvParameters)
 			if(xQueueReceive(decoderQueue, &bufferelement[0], portMAX_DELAY) == pdTRUE) {
 				for (int i = 0; i < 32; i++) // Die Werte von der Queue werden in das Ringbuffer geschrieben
 				{
-
-					//Differenz Wert
+					ringbuffer[write_pos&0x00FF] = bufferelement[i];
+					write_pos++;
 				}
 			} //Klammer IF
 		} //Klammer While
