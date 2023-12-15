@@ -4,6 +4,9 @@
 * Created: 05.05.2020 16:24:59
 *  Author: Chaos
 */
+
+
+
 #include "avr_compiler.h"
 #include "pmic_driver.h"
 #include "TC_driver.h"
@@ -30,10 +33,14 @@
 #include "LSM9DS1Driver.h"
 #include "twiMaster.h"
 
+#define IDEL 101
+#define DATA 100
+
 TickType_t old_time, new_time;
 
 uint8_t Chaos_data = 0; //Nur Für Testzwecke ChaosData! Kann später Gelöscht werden
 uint8_t sendbuffer[50] = {4,4,4,4,4,4,4,4};
+uint8_t Modus = IDEL;
 uint8_t sendID = 0;
 uint8_t debug_gen = 0;
 float temparatur = 0;
@@ -117,26 +124,12 @@ void vQuamGen(void *pvParameters) {
 		vTaskDelay(3/portTICK_RATE_MS);
 	}
 	xEventGroupWaitBits(evDMAState, DMAGENREADY, false, true, portMAX_DELAY);
-	int BinaryCounter = 0;
 	for(;;) {
-		
-// 		switch(BinaryCounter){
-// 			
-// 			case 0:
-// // 				readTempData();
-// // 				temparatur =  getTemperatureData();
-// // 				printBinary(byteArray[4]);
-// // 				createBinary();
-// 				BinaryCounter = 4;
-// 				break;
-// 			default:
-// 				BinaryCounter--;
-// 				break;
-			
-		//}
+
 		switch(debug_gen)
 		{case 3: // Nur Für Testzwecke ChaosData! Kann später von 3 zu 0 getauscht werden
 				createSendData();
+				Modus = IDEL;
 				debug_gen = 1;
 				break;
 			/************************************************************************/
@@ -149,18 +142,6 @@ void vQuamGen(void *pvParameters) {
 						sendbuffer[i] = 0;
 						sendbuffer[++i] = 3;
 					}
-// 				for(int i = 1; i < 31; i++){
-// 				
-// 					sendbuffer[i] = rand()%3;
-// 				
-// 				}
-				Chaos_data++;
-				switch(Chaos_data){
-					
-					case 3:
-						debug_gen = 3;
-						break;
-				}
 				debug_gen = 1;
 				break;
 			/************************************************************************/
@@ -174,6 +155,7 @@ void vQuamGen(void *pvParameters) {
 			 				printBinary(byteArray[4]);
 			 				createBinary();
 							old_time = new_time;
+							Modus = DATA;
 		}else{
 			new_time = xTaskGetTickCount();
 		}
@@ -213,11 +195,11 @@ void fillBuffer(uint16_t buffer[NR_OF_SAMPLES]) {
 		/************************************************************************/
 		/*        Simulation for a random bit stream Deleted for Final          */
 		/************************************************************************/
-		switch(Chaos_data){
-			case 3:
+		switch(Modus){
+			case DATA:
 			debug_gen = 3;
 			break;
-			default:
+			case IDEL:
 			debug_gen = 0;
 			break;
 			/************************************************************************/
