@@ -237,15 +237,19 @@ void vTest(void *pvParameters){
 	int16_t syncpos[10] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
 	uint8_t n = 0; // Nicht Best Practise Provisorium!!
 	uint8_t Doppel = 0; // Nicht Best Practise Provisorium!!
+	uint8_t syncoff1 = 0;
+	uint8_t syncoff2 = 0;
+	uint8_t syncoff3 = 0;
+	uint8_t syncoff4 = 0;
 	
 	(void) pvParameters;
 	
 	for (;;)
 	{ /*Data ist eine Biilig Counting Semaphore weill ich noch keines erstellen konnte 05.12.2023*/
 		
-		if (((write_pos & BitMask) - (read_pos & BitMask)) >= 45 )
+		if (((write_pos & BitMask) - (read_pos & BitMask)) >= 40 )
 		{
-			for (int i = 0; i < 45; ++i)
+			for (int i = 0; i < 40; ++i)
 			{
 				
 				if ((ringbuffer[read_pos & BitMask] > 2000) && (Doppel >= 2))
@@ -257,8 +261,12 @@ void vTest(void *pvParameters){
 				read_pos++;
 				Doppel++;
 			}
+
+		} if (n >= 5 )
+		{
+			n=0;
 		}
-		vTaskDelay(2/portTICK_RATE_MS);
+		vTaskDelay(1/portTICK_RATE_MS);
 	} // FOR ;; Klammer
 }
 
