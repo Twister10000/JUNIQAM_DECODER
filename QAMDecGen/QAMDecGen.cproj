@@ -154,6 +154,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Display.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="driver\clksys_driver.c">
       <SubType>compile</SubType>
     </Compile>
@@ -263,6 +266,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="includes\avr_compiler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="includes\Display.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="includes\errorHandler.h">
