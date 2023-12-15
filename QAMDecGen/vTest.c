@@ -264,7 +264,34 @@ void vTest(void *pvParameters){
 
 		} if (n >= 5 )
 		{
-			n=0;
+			syncoff1 = syncpos[1] - syncpos[0];
+			syncoff2 = syncpos[2] - syncpos[1];
+			syncoff3 = syncpos[3] - syncpos[2];
+			syncoff4 = syncpos[4] - syncpos[3];
+			analyzediff(syncoff1);
+			analyzediff(syncoff2);
+			analyzediff(syncoff3);
+			analyzediff(syncoff4);
+			switch (n){
+				case 5:
+					syncpos[0] = syncpos[4];
+					n = 1;
+					break;
+				case 6:
+					syncpos[0] = syncpos[4];
+					syncpos[1] = syncpos[5];
+					n = 2;
+					break;
+				case 7:
+					syncpos[0] = syncpos[4];
+					syncpos[1] = syncpos[5];
+					syncpos[2] = syncpos[6];
+					n = 3;
+					break;
+
+			}
+
+			/*n = 1;*/
 		}
 		vTaskDelay(1/portTICK_RATE_MS);
 	} // FOR ;; Klammer
@@ -412,6 +439,16 @@ void analyzediff(uint8_t Offset){
 		checksumGL = 0;
 
 		break;
+		case 4:
+			 		if (!((receivebuffer[0] == 0) && (receivebuffer[1] == 3) && (receivebuffer[2] == 0) && (receivebuffer[3] == 3))) //Gesammte P�ckchen Anzahl muss durch 4 Sauber geteitl werden k�nnen
+			 		{
+			 			k = 0;
+			 			for (int i = 0; i < 4; i++)
+			 			{
+			 				receivebuffer[i] = 0;
+			 			}
+			 		}
+			break;
 
 	}
 }
