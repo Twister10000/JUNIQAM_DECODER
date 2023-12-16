@@ -28,7 +28,7 @@
 #include "string.h"
 #include "main.h"
 
-#define BitMask 0x00FF
+#define BitMask 0x000000FF
 
 #define quarterjump1 7
 #define quarterjump2 8 //Perfekt f�r Sync Weil diese Spr�nge nur in einem Fall auftreten k�nnen 3 -> 0
@@ -67,12 +67,15 @@
 #define onethreequartersjump2 56 //Perfekt f�r Sync Weil diese Spr�nge nur in einem Fall auftreten k�nnen 0 -> 3
 #define onethreequartersjump3 57
 
+#define HI 2150
+#define LO 1200
+
 uint8_t receivebuffer[50];
-SemaphoreHandle_t xMutex;
+SemaphoreHandle_t xMutex = NULL;
 uint8_t lastnumber = 0; // Nicht Best Practise Provisorium!!
 /*uint8_t Offset = 0;*/
 uint8_t k = 0; // Nicht Best Practise Provisorium!!
-uint16_t read_pos = 0; // Nicht Best Practise Provisorium!!
+uint32_t read_pos = 0; // Nicht Best Practise Provisorium!!
 
 uint8_t checksumGL = 0; // Initialisierung der Checksumme
 uint8_t calculatedChecksum = 0; // Variable f�r die berechnete Checksumme
@@ -238,19 +241,68 @@ void vTest(void *pvParameters){
 	int16_t syncpos[10] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
 	uint8_t n = 0; // Nicht Best Practise Provisorium!!
 	uint8_t Doppel = 0; // Nicht Best Practise Provisorium!!
-
+	
+	uint16_t ringbuffer[256] = {LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
+								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
+								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO};
+								
+	//uint16_t ringbuffer[256] = {LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+		//LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+		//LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
+		//LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+		//LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+		//LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+		//LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+	//LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO};
 	
 	(void) pvParameters;
 	
 	for (;;)
 	{ /*Data ist eine Biilig Counting Semaphore weill ich noch keines erstellen konnte 05.12.2023*/
 		xSemaphoreTake(xMutex, portMAX_DELAY);
-		if (((write_pos & BitMask) - (read_pos & BitMask)) >= 40 )
+		if (((write_pos & BitMask) - (read_pos & BitMask)) >= 70 )
 		{
-			for (int i = 0; i < 40; ++i)
+			pos = getNextHighImpulse(readpos)
+			nextpos = getNextHighImpulse(pos)
+			impulseValue = getImpulseValue(nextpos - pos, lastImpulseValue)
+			lastImpulseValue = impulseValue;
+			
+			switch(protocolmode) {
+				case Idele0:
+					if(impulseValue == 0)
+						protocolmode = Idle1:
+				break;
+				case Idle1:
+					if(impulseValue == 3)
+						protocolmode = Idle0:
+				break;
+				case Sync:
+					if(protocolmode == Idle0 && impulseValue == 2):
+						protocolmode =  type;
+				break;
+				case type:
+				
+				break;
+				case data:
+				
+				break;
+				case checksum:
+				
+				brek;
+			}
+			readpos = nextpos;
+				
+			
+			
+			for (int i = 0; i < 70; ++i)
 			{
 				
-				if ((ringbuffer[read_pos & BitMask] > 2000) && (Doppel >= 2))
+				if ((ringbuffer[read_pos & BitMask] > 2000) && (Doppel >= 2)) //Wert 2000 über Durchschnitt peak vom Idel Stream setzten!
 				{
 					syncpos[n] = (read_pos & BitMask);
 					n++;

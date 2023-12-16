@@ -14,8 +14,8 @@ extern SemaphoreHandle_t xMutex;
 
 extern uint16_t ringbuffer[256];
 
-extern uint16_t read_pos;
-extern uint16_t write_pos;
+extern uint32_t read_pos;
+extern uint32_t write_pos;
 extern uint8_t data;
 
 

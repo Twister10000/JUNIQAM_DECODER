@@ -29,7 +29,7 @@
 
 /*Defines*/
 
-#define BitMask 0x00FF
+#define BitMask 0x000000FF
 /*Test Init*/
 
 
@@ -43,7 +43,7 @@ uint16_t ringbuffer[256]; //Array nicht Global erstellen
 
 
 /*Var Init*/
-uint16_t write_pos = 0;
+uint32_t write_pos = 0;
 
 
 
@@ -63,6 +63,10 @@ void vQuamDec(void* pvParameters)
 	while(evDMAState == NULL) {
 		vTaskDelay(3/portTICK_RATE_MS);
 	}
+	while (xMutex == NULL)
+	{
+		vTaskDelay(3/portTICK_RATE_MS);
+	}
 	
 	uint16_t bufferelement[NR_OF_SAMPLES];
 	
@@ -73,8 +77,9 @@ void vQuamDec(void* pvParameters)
 				xSemaphoreTake(xMutex, portMAX_DELAY);
 				for (int i = 0; i < 32; i++) // Die Werte von der Queue werden in das Ringbuffer geschrieben
 				{
-					ringbuffer[write_pos&BitMask] = bufferelement[i];
-					write_pos++;
+// 					ringbuffer[write_pos&BitMask] = bufferelement[i];
+					
+ 					write_pos++;
 				}
 				xSemaphoreGive(xMutex);
 			} //Klammer IF
