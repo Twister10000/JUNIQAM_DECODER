@@ -265,7 +265,7 @@ void vTest(void *pvParameters){
 	for (;;)
 	{ /*Data ist eine Biilig Counting Semaphore weill ich noch keines erstellen konnte 05.12.2023*/
 		xSemaphoreTake(xMutex, portMAX_DELAY);
-		if (((write_pos & BitMask) - (read_pos & BitMask)) >= 70 )
+		if (((write_pos) - (read_pos)) >= 70 )
 		{
 			pos = getNextHighImpulse(readpos)
 			nextpos = getNextHighImpulse(pos)
@@ -295,7 +295,7 @@ void vTest(void *pvParameters){
 				
 				brek;
 			}
-			readpos = nextpos;
+			readpos = nextpos-4;
 				
 			
 			
