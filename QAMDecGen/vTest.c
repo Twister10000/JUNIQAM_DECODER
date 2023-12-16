@@ -68,7 +68,7 @@
 #define onethreequartersjump3 57
 
 uint8_t receivebuffer[50];
-
+SemaphoreHandle_t xMutex;
 uint8_t lastnumber = 0; // Nicht Best Practise Provisorium!!
 /*uint8_t Offset = 0;*/
 uint8_t k = 0; // Nicht Best Practise Provisorium!!
@@ -234,19 +234,17 @@ void analyzediff(uint8_t Offset);
 
 void vTest(void *pvParameters){
 	
+	xMutex = xSemaphoreCreateMutex();
 	int16_t syncpos[10] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
 	uint8_t n = 0; // Nicht Best Practise Provisorium!!
 	uint8_t Doppel = 0; // Nicht Best Practise Provisorium!!
-	uint8_t syncoff1 = 0;
-	uint8_t syncoff2 = 0;
-	uint8_t syncoff3 = 0;
-	uint8_t syncoff4 = 0;
+
 	
 	(void) pvParameters;
 	
 	for (;;)
 	{ /*Data ist eine Biilig Counting Semaphore weill ich noch keines erstellen konnte 05.12.2023*/
-		
+		xSemaphoreTake(xMutex, portMAX_DELAY);
 		if (((write_pos & BitMask) - (read_pos & BitMask)) >= 40 )
 		{
 			for (int i = 0; i < 40; ++i)
@@ -261,37 +259,7 @@ void vTest(void *pvParameters){
 				read_pos++;
 				Doppel++;
 			}
-
-		} if (n >= 5 )
-		{
-			syncoff1 = syncpos[1] - syncpos[0];
-			syncoff2 = syncpos[2] - syncpos[1];
-			syncoff3 = syncpos[3] - syncpos[2];
-			syncoff4 = syncpos[4] - syncpos[3];
-			analyzediff(syncoff1);
-			analyzediff(syncoff2);
-			analyzediff(syncoff3);
-			analyzediff(syncoff4);
-			switch (n){
-				case 5:
-					syncpos[0] = syncpos[4];
-					n = 1;
-					break;
-				case 6:
-					syncpos[0] = syncpos[4];
-					syncpos[1] = syncpos[5];
-					n = 2;
-					break;
-				case 7:
-					syncpos[0] = syncpos[4];
-					syncpos[1] = syncpos[5];
-					syncpos[2] = syncpos[6];
-					n = 3;
-					break;
-
-			}
-
-			/*n = 1;*/
+			xSemaphoreGive(xMutex);
 		}
 		vTaskDelay(1/portTICK_RATE_MS);
 	} // FOR ;; Klammer

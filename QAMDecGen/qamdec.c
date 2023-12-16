@@ -26,6 +26,7 @@
 #include "qamdec.h"
 #include "string.h"
 #include "main.h"
+
 /*Defines*/
 
 #define BitMask 0x00FF
@@ -35,7 +36,7 @@
 /*Queue Init*/
 QueueHandle_t decoderQueue;
 
-SemaphoreHandle_t CountingSemaphore;
+
 
 /*Array Init*/
 uint16_t ringbuffer[256]; //Array nicht Global erstellen
@@ -69,11 +70,13 @@ void vQuamDec(void* pvParameters)
 	for(;;) {
 		while(uxQueueMessagesWaiting(decoderQueue) > 0) { // Nur arbeiten wenn in der Queue auch Werte drin sind
 			if(xQueueReceive(decoderQueue, &bufferelement[0], portMAX_DELAY) == pdTRUE) {
+				xSemaphoreTake(xMutex, portMAX_DELAY);
 				for (int i = 0; i < 32; i++) // Die Werte von der Queue werden in das Ringbuffer geschrieben
 				{
 					ringbuffer[write_pos&BitMask] = bufferelement[i];
 					write_pos++;
 				}
+				xSemaphoreGive(xMutex);
 			} //Klammer IF
 		} //Klammer While
 		vTaskDelay( 2 / portTICK_RATE_MS );

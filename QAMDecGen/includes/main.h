@@ -10,7 +10,7 @@
 #define MAIN_H_
 #include "semphr.h"
 
-extern SemaphoreHandle_t CountingSemaphore;
+extern SemaphoreHandle_t xMutex;
 
 extern uint16_t ringbuffer[256];
 
