@@ -28,6 +28,7 @@
 #include "main.h"
 /*Defines*/
 
+#define BitMask 0x00FF
 /*Test Init*/
 
 
@@ -70,7 +71,7 @@ void vQuamDec(void* pvParameters)
 			if(xQueueReceive(decoderQueue, &bufferelement[0], portMAX_DELAY) == pdTRUE) {
 				for (int i = 0; i < 32; i++) // Die Werte von der Queue werden in das Ringbuffer geschrieben
 				{
-					ringbuffer[write_pos&0x00FF] = bufferelement[i];
+					ringbuffer[write_pos&BitMask] = bufferelement[i];
 					write_pos++;
 				}
 			} //Klammer IF
