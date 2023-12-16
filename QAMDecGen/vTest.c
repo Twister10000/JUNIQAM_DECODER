@@ -259,8 +259,8 @@ void vTest(void *pvParameters){
 				read_pos++;
 				Doppel++;
 			}
-			xSemaphoreGive(xMutex);
 		}
+		xSemaphoreGive(xMutex);
 		vTaskDelay(1/portTICK_RATE_MS);
 	} // FOR ;; Klammer
 }
