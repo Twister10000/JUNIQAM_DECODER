@@ -259,6 +259,10 @@ void vTest(void *pvParameters){
 				read_pos++;
 				Doppel++;
 			}
+			if (n >= 9)
+			{
+				n = 0;
+			}
 		}
 		xSemaphoreGive(xMutex);
 		vTaskDelay(1/portTICK_RATE_MS);
