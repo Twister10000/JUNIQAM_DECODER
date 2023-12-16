@@ -69,14 +69,14 @@
 
 uint8_t receivebuffer[50];
 
-uint8_t lastnumber = 0;
+uint8_t lastnumber = 0; // Nicht Best Practise Provisorium!!
 /*uint8_t Offset = 0;*/
-uint8_t k = 0;
-uint16_t read_pos = 0;
+uint8_t k = 0; // Nicht Best Practise Provisorium!!
+uint16_t read_pos = 0; // Nicht Best Practise Provisorium!!
 
 uint8_t checksumGL = 0; // Initialisierung der Checksumme
 uint8_t calculatedChecksum = 0; // Variable f�r die berechnete Checksumme
-float reconstructedFloat;
+float reconstructedFloat; // Nicht Best Practise Provisorium!!
 
 
 
