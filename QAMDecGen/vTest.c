@@ -246,16 +246,16 @@ uint8_t analyzediff(uint8_t Pos, uint8_t nexpos, uint8_t lastnumber);
 
 uint8_t getNextHighPos(uint32_t Pos){
 	int16_t syncpos = -1;
-	for (int i = 0; i < 50; ++i)
+
+	for (int i = 0; i < 60; ++i)
 	{
-		
+		Pos = Pos + 2 ;
 		if ((ringbuffer[Pos & BitMask] > 2000)) //Wert 2000 über Durchschnitt peak vom Idel Stream setzten!
 		{
 			syncpos = (Pos & BitMask);
-			
-
+			return syncpos;
 		}
-		Pos++;
+		
 	}
 	if (syncpos != -1)
 	{
@@ -263,9 +263,6 @@ uint8_t getNextHighPos(uint32_t Pos){
 	}else{
 		return -1;
 	}
-	
-	
-	
 }
 
 void vTest(void *pvParameters){
@@ -328,15 +325,16 @@ void vTest(void *pvParameters){
 // 				case checksum:
 // 				
 // 				brek;
-			}
-	/*read_pos = nextpos-4;*/
+//				}
+				read_pos = nextpos-4;
+		}
 	xSemaphoreGive(xMutex);
 	vTaskDelay(1/portTICK_RATE_MS);
 	}
 }
 
 
-uint8_t analyzediff(uint8_t Pos, uint8_t nexpos, uint8_t lastnumber){
+uint8_t analyzediff(uint8_t Pos, uint8_t nexpos, uint8_t number){
 	uint8_t Offset = 0;
 	uint8_t symbol = 0;
 	
