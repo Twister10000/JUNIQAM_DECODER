@@ -29,6 +29,13 @@
 #include "main.h"
 
 #define BitMask 0x000000FF
+#define Idel0 0
+#define Idel1 1
+#define type 2
+#define sync 3
+#define Data 4
+#define checksum 5
+
 
 #define quarterjump1 7
 #define quarterjump2 8 //Perfekt f�r Sync Weil diese Spr�nge nur in einem Fall auftreten k�nnen 3 -> 0
@@ -322,11 +329,12 @@ uint8_t getNextHighPos(uint32_t Pos){
 }
 
 void vTest(void *pvParameters){
-	int16_t pos = 0; // Nicht Best Practise Provisorium!!
-	int16_t nextpos = 0; // Nicht Best Practise Provisorium!!
+	uint32_t read_pos = 0;
+	int16_t pos = 0;
+	int16_t nextpos = 0;
 	uint8_t currentnumber = 0;
 	uint8_t lastnumber = 0;
-	uint32_t read_pos = 0;
+	uint8_t protocolmode = 0;
 	xMutex = xSemaphoreCreateMutex();
 
 	
@@ -360,6 +368,39 @@ void vTest(void *pvParameters){
 			nextpos = getNextHighPos(pos);
 			currentnumber = analyzediff(pos, nextpos, lastnumber);
 			lastnumber = currentnumber;
+			read_pos = nextpos-4;
+			
+			switch(protocolmode){ //Sinnvoll hier das mit dem Receivbuffer zu machen?
+				case Idel0:
+					if (protocolmode == Idel0 && currentnumber == 2)
+					{
+						protocolmode = type;
+					}if (currentnumber == 0)
+					{
+						protocolmode = Idel1;
+					}
+					break;
+				case Idel1:
+					if (currentnumber == 3)
+					{
+						protocolmode = Idel0;
+					}
+					break;
+				case type:
+					
+					break;
+				case sync:
+					
+					break;
+				case Data:
+					
+					break;
+				case checksum:
+					
+					break;
+				
+				
+			}
 			
 // 			switch(protocolmode) {
 // 				case Idele0:
@@ -384,7 +425,7 @@ void vTest(void *pvParameters){
 // 				
 // 				brek;
 //				}
-				read_pos = nextpos-4;
+				
 		}
 	xSemaphoreGive(xMutex);
 	vTaskDelay(1/portTICK_RATE_MS);
@@ -491,7 +532,7 @@ uint8_t analyzediff(uint8_t Pos, uint8_t nexpos, uint8_t number){
 		newnumber = onethreequartersjump(number);
 		break;
 		default:
-		//Code f�r Resett einbauen
+		//Code für Resett einbauen
 		break;
 	}
 	k++;
