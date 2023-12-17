@@ -82,6 +82,15 @@ uint8_t calculatedChecksum = 0; // Variable f�r die berechnete Checksumme
 float reconstructedFloat; // Nicht Best Practise Provisorium!!
 
 
+	uint16_t ringbuffer[256] = {LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+		LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+		LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+		LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
+		LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+		LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
+		LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+	LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO};
+
 
 
 void quarterjump(void){
@@ -233,23 +242,48 @@ void onethreequartersjump(void){
 	}
 }
 
-void analyzediff(uint8_t Offset);
+uint8_t analyzediff(uint8_t Pos, uint8_t nexpos, uint8_t lastnumber);
+
+uint8_t getNextHighPos(uint32_t Pos){
+	int16_t syncpos = -1;
+	for (int i = 0; i < 50; ++i)
+	{
+		
+		if ((ringbuffer[Pos & BitMask] > 2000)) //Wert 2000 über Durchschnitt peak vom Idel Stream setzten!
+		{
+			syncpos = (Pos & BitMask);
+			
+
+		}
+		Pos++;
+	}
+	if (syncpos != -1)
+	{
+		return syncpos;
+	}else{
+		return -1;
+	}
+	
+	
+	
+}
 
 void vTest(void *pvParameters){
 	
 	xMutex = xSemaphoreCreateMutex();
-	int16_t syncpos[10] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-	uint8_t n = 0; // Nicht Best Practise Provisorium!!
-	uint8_t Doppel = 0; // Nicht Best Practise Provisorium!!
+	int16_t pos = 0; // Nicht Best Practise Provisorium!!
+	int16_t nextpos = 0; // Nicht Best Practise Provisorium!!
+	uint8_t currentnumber = 0;
 	
-	uint16_t ringbuffer[256] = {LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
-								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
-								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO};
+	
+// 	uint16_t ringbuffer[256] = {LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+// 								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+// 								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+// 								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
+// 								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+// 								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
+// 								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
+// 								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO};
 								
 	//uint16_t ringbuffer[256] = {LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
 		//LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
@@ -267,63 +301,47 @@ void vTest(void *pvParameters){
 		xSemaphoreTake(xMutex, portMAX_DELAY);
 		if (((write_pos) - (read_pos)) >= 70 )
 		{
-			pos = getNextHighImpulse(readpos)
-			nextpos = getNextHighImpulse(pos)
-			impulseValue = getImpulseValue(nextpos - pos, lastImpulseValue)
-			lastImpulseValue = impulseValue;
+			pos = getNextHighPos(read_pos);
+			nextpos = getNextHighPos(pos);
+			currentnumber = analyzediff(pos, nextpos, lastnumber);
+			lastnumber = currentnumber;
 			
-			switch(protocolmode) {
-				case Idele0:
-					if(impulseValue == 0)
-						protocolmode = Idle1:
-				break;
-				case Idle1:
-					if(impulseValue == 3)
-						protocolmode = Idle0:
-				break;
-				case Sync:
-					if(protocolmode == Idle0 && impulseValue == 2):
-						protocolmode =  type;
-				break;
-				case type:
-				
-				break;
-				case data:
-				
-				break;
-				case checksum:
-				
-				brek;
+// 			switch(protocolmode) {
+// 				case Idele0:
+// 					if(impulseValue == 0)
+// 						protocolmode = Idle1:
+// 				break;
+// 				case Idle1:
+// 					if(impulseValue == 3)
+// 						protocolmode = Idle0:
+// 				break;
+// 				case Sync:
+// 					if(protocolmode == Idle0 && impulseValue == 2):
+// 						protocolmode =  type;
+// 				break;
+// 				case type:
+// 				
+// 				break;
+// 				case data:
+// 				
+// 				break;
+// 				case checksum:
+// 				
+// 				brek;
 			}
-			readpos = nextpos-4;
-				
-			
-			
-			for (int i = 0; i < 70; ++i)
-			{
-				
-				if ((ringbuffer[read_pos & BitMask] > 2000) && (Doppel >= 2)) //Wert 2000 über Durchschnitt peak vom Idel Stream setzten!
-				{
-					syncpos[n] = (read_pos & BitMask);
-					n++;
-					Doppel = 0;
-				}
-				read_pos++;
-				Doppel++;
-			}
-			if (n >= 9)
-			{
-				n = 0;
-			}
-		}
-		xSemaphoreGive(xMutex);
-		vTaskDelay(1/portTICK_RATE_MS);
-	} // FOR ;; Klammer
+	/*read_pos = nextpos-4;*/
+	xSemaphoreGive(xMutex);
+	vTaskDelay(1/portTICK_RATE_MS);
+	}
 }
 
-void analyzediff(uint8_t Offset){
 
+uint8_t analyzediff(uint8_t Pos, uint8_t nexpos, uint8_t lastnumber){
+	uint8_t Offset = 0;
 	uint8_t symbol = 0;
+	
+	Offset = nexpos - Pos;
+	
 	switch(Offset){ // Startwert ist 3
 		case quarterjump1: //Cases zusammenf�hren f�r weniger zeilen code!! case1:case2:case3: Code break;
 		quarterjump(); //Wenn man zu oft hier landet kann man beim Offset noch +1 dazurechnen
@@ -475,4 +493,5 @@ void analyzediff(uint8_t Offset){
 			break;
 
 	}
+	return lastnumber;
 }
