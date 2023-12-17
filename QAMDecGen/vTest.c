@@ -317,6 +317,9 @@ uint8_t getNextHighPos(uint32_t Pos){
 		{
 			syncpos = (Pos & BitMask);
 			return syncpos;
+		}if (ringbuffer[Pos & BitMask] < 50)
+		{
+			vTaskDelay(1/portTICK_RATE_MS);
 		}
 		
 	}
@@ -364,7 +367,9 @@ void vTest(void *pvParameters){
 		xSemaphoreTake(xMutex, portMAX_DELAY);
 		if (((write_pos) - (read_pos)) >= 70 )
 		{
+			xSemaphoreGive(xMutex);
 			pos = getNextHighPos(read_pos);
+			//Semaphore Give
 			nextpos = getNextHighPos(pos);
 			currentnumber = analyzediff(pos, nextpos, lastnumber);
 			lastnumber = currentnumber;
@@ -387,7 +392,7 @@ void vTest(void *pvParameters){
 					}
 					break;
 				case type:
-					
+						
 					break;
 				case sync:
 					
@@ -426,8 +431,11 @@ void vTest(void *pvParameters){
 // 				brek;
 //				}
 				
-		}
-	xSemaphoreGive(xMutex);
+	}else
+	{
+		xSemaphoreGive(xMutex);
+	}
+	
 	vTaskDelay(1/portTICK_RATE_MS);
 	}
 }
