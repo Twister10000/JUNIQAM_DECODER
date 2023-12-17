@@ -91,9 +91,9 @@ void createSendData() { //0 -> 3 & 3-> 0 sind Idel Task (createideldata)
 	uint8_t datalen = 4;
 	/*Header Start*/
 	sendbuffer[0] = 0;
-	sendbuffer[1] = 3;
+	sendbuffer[1] = 2;
 	sendbuffer[2] = 0;
-	sendbuffer[3] = 3;
+	sendbuffer[3] = 2;
 	sendbuffer[4] = (sendID >> 0) & 0x03;
 	sendbuffer[5] = (sendID >> 2) & 0x03;
 	sendbuffer[6] = (sendID >> 4) & 0x03;
