@@ -316,9 +316,9 @@ uint8_t onethreequartersjump(uint8_t lastnumber){
 	}
 }
 
-uint8_t analyzediff(uint8_t Pos, uint8_t nexpos, uint8_t lastnumber);
+uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t lastnumber);
 
-uint8_t getNextHighPos(uint32_t Pos){
+int16_t getNextHighPos(uint32_t Pos){
 	int16_t syncpos = -1;
 
 	for (int i = 0; i < 60; ++i)
@@ -328,10 +328,10 @@ uint8_t getNextHighPos(uint32_t Pos){
 		{
 			syncpos = (Pos & BitMask);
 			return syncpos;
-		}if (ringbuffer[Pos & BitMask] < 50)
-		{
-			vTaskDelay(1/portTICK_RATE_MS);
-		}
+		}//if (ringbuffer[Pos & BitMask] < 50)
+// 		{
+// 			vTaskDelay(1/portTICK_RATE_MS);
+// 		}
 		
 	}
 	if (syncpos != -1)
@@ -346,7 +346,7 @@ void vTest(void *pvParameters){
 	uint32_t read_pos = 0;
 	int16_t pos = 0;
 	int16_t nextpos = 0;
-	uint8_t currentnumber = 0;
+	uint8_t currentnumber = 4;
 	uint8_t lastnumber = 0;
 	uint8_t protocolmode = 0;
 	xMutex = xSemaphoreCreateMutex();
@@ -384,29 +384,45 @@ void vTest(void *pvParameters){
 			nextpos = getNextHighPos(pos);
 			currentnumber = analyzediff(pos, nextpos, lastnumber);
 			lastnumber = currentnumber;
+			if (nextpos == -1)
+			{
+				read_pos = pos-4;
+			}else{
 			read_pos = nextpos-4;
-			
+			}
 			switch(protocolmode){ //Sinnvoll hier das mit dem Receivbuffer zu machen?
 				case Idel0:
-					if (protocolmode == Idel0 && currentnumber == 2)
-					{
-						protocolmode = type;
-					}if (currentnumber == 0)
+					if (currentnumber == 0)
 					{
 						protocolmode = Idel1;
 					}
 					break;
 				case Idel1:
+					if (currentnumber == 2)
+					{
+						protocolmode = type;
+					}
 					if (currentnumber == 3)
 					{
 						protocolmode = Idel0;
 					}
 					break;
 				case type:
-						
+					if (currentnumber == 0)
+					{
+						protocolmode = sync;
+					}else
+					{
+						protocolmode = Idel0;						
+					}
 					break;
 				case sync:
-					
+					if (currentnumber == 2)
+					{
+						protocolmode = Data;
+					}else{
+						protocolmode = Idel0;
+					}
 					break;
 				case Data:
 					
@@ -452,13 +468,16 @@ void vTest(void *pvParameters){
 }
 
 
-uint8_t analyzediff(uint8_t Pos, uint8_t nexpos, uint8_t number){
+uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number){
 	uint8_t Offset = 0;
 	uint8_t symbol = 0;
-	uint8_t newnumber = 0;
-	
-	Offset = nexpos - Pos;
-	
+	uint8_t newnumber = 4;
+	if (nextpos == -1)
+	{
+		Offset = 8;
+	}else{
+	Offset = nextpos - Pos;
+	}
 	switch(Offset){ // Startwert ist 3
 		case quarterjump1: //Cases zusammenf�hren f�r weniger zeilen code!! case1:case2:case3: Code break;
 		newnumber = quarterjump(number); //Wenn man zu oft hier landet kann man beim Offset noch +1 dazurechnen
