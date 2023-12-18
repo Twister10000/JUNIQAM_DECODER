@@ -84,6 +84,7 @@ uint8_t k = 0; // Nicht Best Practise Provisorium!!
 uint8_t checksumGL = 0; // Initialisierung der Checksumme
 uint8_t calculatedChecksum = 0; // Variable f�r die berechnete Checksumme
 float reconstructedFloat; // Nicht Best Practise Provisorium!!
+uint8_t debug = 0;
 
 
 //  	uint16_t ringbuffer[256] = { //IDEL STREAM 030303
@@ -419,7 +420,13 @@ void vTest(void *pvParameters){
 				case sync:
 					if (currentnumber == 2)
 					{
-						protocolmode = Data;
+						k = 4;
+						debug = 1;
+						receivebuffer[0] = 0;
+						receivebuffer[1] = 2;
+						receivebuffer[2] = 0;
+						receivebuffer[3] = 2;
+						//protocolmode = Data;
 					}else{
 						protocolmode = Idel0;
 					}
@@ -576,6 +583,9 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number){
 	k++;
 	switch(k){
 		case 32: //Wert noch anpassen working 62
+		if (debug == 1)
+		{
+		
 		k = 0;
 		for (size_t i = 0; i < (NR_OF_SAMPLES-4); i++) {
 			calculatedChecksum += receivebuffer[i];
@@ -613,9 +623,11 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number){
 		{
 			receivebuffer[i] = 0; //Mutex!
 		}
-
+		debug = 0;
 		checksumGL = 0;
-
+		}else{
+			break;
+		}
 		break;
 		case 4:
 			 		if (!((receivebuffer[0] == 0) && (receivebuffer[1] == 3) && (receivebuffer[2] == 0) && (receivebuffer[3] == 3))) //Gesammte P�ckchen Anzahl muss durch 4 Sauber geteitl werden k�nnen

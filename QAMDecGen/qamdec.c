@@ -77,7 +77,7 @@ void vQuamDec(void* pvParameters)
 				xSemaphoreTake(xMutex, portMAX_DELAY);
 				for (int i = 0; i < 32; i++) // Die Werte von der Queue werden in das Ringbuffer geschrieben
 				{
-// 					ringbuffer[write_pos&BitMask] = bufferelement[i];
+ 					ringbuffer[write_pos&BitMask] = bufferelement[i];
 					
  					write_pos++;
 				}
