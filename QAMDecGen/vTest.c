@@ -617,8 +617,6 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos)
 		if (calculatedChecksum == checksumGL) {
 			 //Schluss vom Analyze Teil
 			//CODE Für TEMP Auslesen!	
-
-			
 		}
 		
 		for (int i = 0; i < 32; i++) //Nötig?
