@@ -110,7 +110,7 @@ uint8_t debug = 0;
 
 
 
-uint8_t quarterjump(uint8_t lastnumber){
+uint8_t quarterjump(uint8_t lastnumber, uint8_t k){
 	uint8_t newnumber = 0;
 	return newnumber;
 // 	switch(lastnumber){
@@ -140,7 +140,7 @@ uint8_t quarterjump(uint8_t lastnumber){
 // 	}
 }
 
-uint8_t halfjump(uint8_t lastnumber){
+uint8_t halfjump(uint8_t lastnumber, uint8_t k){
 	uint8_t newnumber = 0;
 	switch(lastnumber){
 		case 0:
@@ -170,7 +170,7 @@ uint8_t halfjump(uint8_t lastnumber){
 	
 }
 
-uint8_t threequartersjump(uint8_t lastnumber){
+uint8_t threequartersjump(uint8_t lastnumber, uint8_t k){
 	uint8_t newnumber = 0;
 	switch(lastnumber){
 		case 0:
@@ -200,7 +200,7 @@ uint8_t threequartersjump(uint8_t lastnumber){
 	
 }
 
-uint8_t fulljump(uint8_t lastnumber){
+uint8_t fulljump(uint8_t lastnumber, uint8_t k){
 	uint8_t newnumber = 0;
 	switch(lastnumber){
 		case 0:
@@ -229,7 +229,7 @@ uint8_t fulljump(uint8_t lastnumber){
 	}
 }
 
-uint8_t onequarterjump(uint8_t lastnumber){
+uint8_t onequarterjump(uint8_t lastnumber, uint8_t k){
 	uint8_t newnumber = 0;
 	
 	switch(lastnumber){
@@ -259,7 +259,7 @@ uint8_t onequarterjump(uint8_t lastnumber){
 	}
 }
 
-uint8_t onehalfjump(uint8_t lastnumber){
+uint8_t onehalfjump(uint8_t lastnumber, uint8_t k){
 	uint8_t newnumber = 0;
 	switch(lastnumber){
 		case 0:
@@ -288,7 +288,7 @@ uint8_t onehalfjump(uint8_t lastnumber){
 	}
 }
 
-uint8_t onethreequartersjump(uint8_t lastnumber){
+uint8_t onethreequartersjump(uint8_t lastnumber, uint8_t k){
 	uint8_t newnumber = 0;
 	switch(lastnumber){
 		case 0:
@@ -317,7 +317,7 @@ uint8_t onethreequartersjump(uint8_t lastnumber){
 	}
 }
 
-uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t lastnumber);
+uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t lastnumber, uint8_t k);
 
 int16_t getNextHighPos(uint32_t Pos){
 	int16_t syncpos = -1;
@@ -350,6 +350,7 @@ void vTest(void *pvParameters){
 	uint8_t currentnumber = 4;
 	uint8_t lastnumber = 0;
 	uint8_t protocolmode = 0;
+	uint8_t RX_Pos = 0;
 	xMutex = xSemaphoreCreateMutex();
 
 	
@@ -383,7 +384,8 @@ void vTest(void *pvParameters){
 			pos = getNextHighPos(read_pos);
 			//Semaphore Give
 			nextpos = getNextHighPos(pos);
-			currentnumber = analyzediff(pos, nextpos, lastnumber);
+			currentnumber = analyzediff(pos, nextpos, lastnumber, RX_Pos);
+			RX_Pos++;
 			lastnumber = currentnumber;
 			if (nextpos == -1)
 			{
@@ -420,7 +422,7 @@ void vTest(void *pvParameters){
 				case sync:
 					if (currentnumber == 2)
 					{
-						k = 4;
+						RX_Pos = 4;
 						debug = 1;
 						receivebuffer[0] = 0;
 						receivebuffer[1] = 2;
@@ -475,7 +477,7 @@ void vTest(void *pvParameters){
 }
 
 
-uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number){
+uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos){
 	uint8_t Offset = 0;
 	uint8_t symbol = 0;
 	uint8_t newnumber = 4;
@@ -487,106 +489,106 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number){
 	}
 	switch(Offset){ // Startwert ist 3
 		case quarterjump1: //Cases zusammenf�hren f�r weniger zeilen code!! case1:case2:case3: Code break;
-		newnumber = quarterjump(number); //Wenn man zu oft hier landet kann man beim Offset noch +1 dazurechnen
+		newnumber = quarterjump(number, rxpos); //Wenn man zu oft hier landet kann man beim Offset noch +1 dazurechnen
 		break;
 		case quarterjump2:
-		newnumber = quarterjump(number);
+		newnumber = quarterjump(number, rxpos);
 		break;
 		case quarterjump3:
-		newnumber = quarterjump(number);
+		newnumber = quarterjump(number, rxpos);
 		break;
 		case quarterjump4:
-		newnumber = quarterjump(number);
+		newnumber = quarterjump(number, rxpos);
 		break;
 		case quarterjump5:
-		newnumber = quarterjump(number);
+		newnumber = quarterjump(number, rxpos);
 		break;
 		case quarterjump6:
-		newnumber = quarterjump(number);
+		newnumber = quarterjump(number, rxpos);
 		break;
 		case halfjump1:
-		newnumber = halfjump(number);
+		newnumber = halfjump(number, rxpos);
 		break;
 		case halfjump2:
-		newnumber = halfjump(number);
+		newnumber = halfjump(number, rxpos);
 		break;
 		case halfjump3:
-		newnumber = halfjump(number);
+		newnumber = halfjump(number, rxpos);
 		break;
 		case halfjump4:
-		newnumber = halfjump(number);
+		newnumber = halfjump(number, rxpos);
 		break;
 		case halfjump5:
-		newnumber = halfjump(number);
+		newnumber = halfjump(number, rxpos);
 		break;
 		case halfjump6:
-		newnumber = halfjump(number);
+		newnumber = halfjump(number, rxpos);
 		break;
 		case threequartersjump1:
-		newnumber = threequartersjump(number);
+		newnumber = threequartersjump(number, rxpos);
 		break;
 		case threequartersjump2:
-		newnumber = threequartersjump(number);
+		newnumber = threequartersjump(number, rxpos);
 		break;
 		case threequartersjump3:
-		newnumber = threequartersjump(number);
+		newnumber = threequartersjump(number, rxpos);
 		break;
 		case threequartersjump4:
-		newnumber = threequartersjump(number);
+		newnumber = threequartersjump(number, rxpos);
 		break;
 		case threequartersjump5:
-		newnumber = threequartersjump(number);
+		newnumber = threequartersjump(number, rxpos);
 		break;
 		case threequartersjump6:
-		newnumber = threequartersjump(number);
+		newnumber = threequartersjump(number, rxpos);
 		break;
 		case fulljump1:
-		newnumber = fulljump(number);
+		newnumber = fulljump(number, rxpos);
 		break;
 		case fulljump2:
-		newnumber = fulljump(number);
+		newnumber = fulljump(number, rxpos);
 		break;
 		case fulljump3:
-		newnumber = fulljump(number);
+		newnumber = fulljump(number, rxpos);
 		break;
 		case onequarterjump1:
-		newnumber = onequarterjump(number);
+		newnumber = onequarterjump(number, rxpos);
 		break;
 		case onequarterjump2:
-		newnumber = onequarterjump(number);
+		newnumber = onequarterjump(number, rxpos);
 		break;
 		case onequarterjump3:
-		newnumber = onequarterjump(number);
+		newnumber = onequarterjump(number, rxpos);
 		break;
 		case onehalfjump1:
-		newnumber = onehalfjump(number);
+		newnumber = onehalfjump(number, rxpos);
 		break;
 		case onehalfjump2:
-		newnumber = onehalfjump(number);
+		newnumber = onehalfjump(number, rxpos);
 		break;
 		case onehalfjump3:
-		newnumber = onehalfjump(number);
+		newnumber = onehalfjump(number, rxpos);
 		break;
 		case onethreequartersjump1:
-		newnumber = onethreequartersjump(number);
+		newnumber = onethreequartersjump(number, rxpos);
 		break;
 		case onethreequartersjump2:
-		newnumber = onethreequartersjump(number);
+		newnumber = onethreequartersjump(number, rxpos);
 		break;
 		case onethreequartersjump3:
-		newnumber = onethreequartersjump(number);
+		newnumber = onethreequartersjump(number, rxpos);
 		break;
 		default:
 		//Code für Resett einbauen
 		break;
 	}
-	k++;
-	switch(k){
+	//k++;
+	switch(rxpos){
 		case 32: //Wert noch anpassen working 62
 		if (debug == 1)
 		{
 		
-		k = 0;
+		rxpos = 0;
 		for (size_t i = 0; i < (NR_OF_SAMPLES-4); i++) {
 			calculatedChecksum += receivebuffer[i];
 		}
@@ -629,16 +631,16 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number){
 			break;
 		}
 		break;
-		case 4:
-			 		if (!((receivebuffer[0] == 0) && (receivebuffer[1] == 3) && (receivebuffer[2] == 0) && (receivebuffer[3] == 3))) //Gesammte P�ckchen Anzahl muss durch 4 Sauber geteitl werden k�nnen
-			 		{
-			 			k = 0;
-			 			for (int i = 0; i < 4; i++)
-			 			{
-			 				receivebuffer[i] = 0;
-			 			}
-			 		}
-			break;
+// 		case 4:
+// 			 		if (!((receivebuffer[0] == 0) && (receivebuffer[1] == 3) && (receivebuffer[2] == 0) && (receivebuffer[3] == 3))) //Gesammte P�ckchen Anzahl muss durch 4 Sauber geteitl werden k�nnen
+// 			 		{
+// 			 			k = 0;
+// 			 			for (int i = 0; i < 4; i++)
+// 			 			{
+// 			 				receivebuffer[i] = 0;
+// 			 			}
+// 			 		}
+// 			break;
 
 	}
 	return newnumber;
