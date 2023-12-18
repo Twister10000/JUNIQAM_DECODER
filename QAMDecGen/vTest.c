@@ -35,6 +35,7 @@
 #define sync 3
 #define Data 4
 #define checksum 5
+#define FINAL 6
 
 
 #define quarterjump1 7
@@ -351,6 +352,7 @@ void vTest(void *pvParameters){
 	uint8_t lastnumber = 0;
 	uint8_t protocolmode = 0;
 	uint8_t RX_Pos = 0;
+	uint8_t symbol = 0;
 	xMutex = xSemaphoreCreateMutex();
 
 	
@@ -428,15 +430,55 @@ void vTest(void *pvParameters){
 						receivebuffer[1] = 2;
 						receivebuffer[2] = 0;
 						receivebuffer[3] = 2;
-						//protocolmode = Data;
+						protocolmode = Data;
 					}else{
 						protocolmode = Idel0;
 					}
 					break;
 				case Data:
-					
+					if(RX_Pos == 31){
+						protocolmode = checksum;
+					}else
+					{
+						break;					
+					}
 					break;
 				case checksum:
+					for (size_t i = 0; i < (NR_OF_SAMPLES-4); i++) { /*CODE CHECKING FOR REALISTIC?*/
+						calculatedChecksum += receivebuffer[i];
+					}
+					for (int z = 0; z < NR_OF_SAMPLES-4; z++){
+						symbol = receivebuffer[z]; // Generiert das Signal entsprechend der Zeit seit dem letzten "Peak"-Signal
+						// Decodiere das Symbol
+						switch (symbol){
+							case 0:
+							checksumGL += receivebuffer[z];
+							break;
+							case 1:
+							checksumGL += receivebuffer[z];
+							break;
+							case 2:
+							checksumGL += receivebuffer[z];
+							break;
+							case 3:
+							checksumGL += receivebuffer[z];
+							break;
+							default:
+							// Auf Dispaly "Unknown symbol received!"
+							break;
+						}
+					}
+					if (calculatedChecksum == checksumGL)
+					{
+						protocolmode = FINAL;
+					}else{
+						RX_Pos = 0;
+						protocolmode = Idel0;
+					}
+					break;
+				case FINAL:
+					
+					
 					
 					break;
 				
@@ -479,7 +521,7 @@ void vTest(void *pvParameters){
 
 uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos){
 	uint8_t Offset = 0;
-	uint8_t symbol = 0;
+	
 	uint8_t newnumber = 4;
 	if (nextpos == -1)
 	{
@@ -589,40 +631,40 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos)
 		{
 		
 		rxpos = 0;
-		for (size_t i = 0; i < (NR_OF_SAMPLES-4); i++) {
-			calculatedChecksum += receivebuffer[i];
-		}
+// 		for (size_t i = 0; i < (NR_OF_SAMPLES-4); i++) {
+// 			calculatedChecksum += receivebuffer[i];
+// 		}
 		
-		for (int z = 0; z < NR_OF_SAMPLES-4; z++){
-			symbol = receivebuffer[z]; // Generiert das Signal entsprechend der Zeit seit dem letzten "Peak"-Signal
-			// Decodiere das Symbol
-			switch (symbol){
-				case 0:
-				checksumGL += receivebuffer[z];
-				break;
-				case 1:
-				checksumGL += receivebuffer[z];
-				break;
-				case 2:
-				checksumGL += receivebuffer[z];
-				break;
-				case 3:
-				checksumGL += receivebuffer[z];
-				break;
-				default:
-				// Auf Dispaly "Unknown symbol received!"
-				break;
-			}
-		}
+// 		for (int z = 0; z < NR_OF_SAMPLES-4; z++){
+// 			symbol = receivebuffer[z]; // Generiert das Signal entsprechend der Zeit seit dem letzten "Peak"-Signal
+// 			// Decodiere das Symbol
+// 			switch (symbol){
+// 				case 0:
+// 				checksumGL += receivebuffer[z];
+// 				break;
+// 				case 1:
+// 				checksumGL += receivebuffer[z];
+// 				break;
+// 				case 2:
+// 				checksumGL += receivebuffer[z];
+// 				break;
+// 				case 3:
+// 				checksumGL += receivebuffer[z];
+// 				break;
+// 				default:
+// 				// Auf Dispaly "Unknown symbol received!"
+// 				break;
+// 			}
+// 		}
 		if (calculatedChecksum == checksumGL) {
 			 //Schluss vom Analyze Teil
 			//CODE Für TEMP Auslesen!	
 		}
 		
-		for (int i = 0; i < 32; i++) //Nötig?
-		{
-			receivebuffer[i] = 0; //Mutex!
-		}
+// 		for (int i = 0; i < 32; i++) //Nötig?
+// 		{
+// 			receivebuffer[i] = 0; //Mutex!
+// 		}
 		debug = 0;
 		checksumGL = 0;
 		}else{
