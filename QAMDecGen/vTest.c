@@ -478,7 +478,8 @@ void vTest(void *pvParameters){
 					break;
 				case FINAL:
 					
-					
+						protocolmode = Idel0;
+						RX_Pos = 0;
 					
 					break;
 				
