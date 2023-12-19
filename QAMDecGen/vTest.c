@@ -113,6 +113,7 @@ uint8_t debug = 0;
 
 uint8_t quarterjump(uint8_t lastnumber, uint8_t k){
 	uint8_t newnumber = 0;
+	receivebuffer[k] = 0;
 	return newnumber;
 // 	switch(lastnumber){
 // 		case 0:
@@ -468,7 +469,7 @@ void vTest(void *pvParameters){
 							break;
 						}
 					}
-					if (calculatedChecksum == checksumGL)
+					if ((receivebuffer[28] == 0) && (receivebuffer[29] == 1) && (receivebuffer[30] == 2) && (receivebuffer[31] == 3))
 					{
 						protocolmode = FINAL;
 					}else{
