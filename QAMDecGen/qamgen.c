@@ -104,10 +104,10 @@ void createSendData() { //0 -> 3 & 3-> 0 sind Idel Task (createideldata)
 	sendbuffer[11] = (datalen >> 6) & 0x03;
 	/*Header END*/
 	for(int i = 0; i < datalen;i++) {
-		sendbuffer[12 + i*4 + 3] = (senddata[i] >> 0) & 0x03; //12 steht für die Grösse vom Header
-		sendbuffer[12 + i*4 + 2] = (senddata[i] >> 2) & 0x03;	// Reihenfolge +n vom sendbuffer geändert wegen LIFO
-		sendbuffer[12 + i*4 + 1] = (senddata[i] >> 4) & 0x03;
-		sendbuffer[12 + i*4 + 0] = (senddata[i] >> 6) & 0x03;
+		sendbuffer[12 + i*4 + 0] = (senddata[i] >> 0) & 0x03; //12 steht für die Grösse vom Header
+		sendbuffer[12 + i*4 + 1] = (senddata[i] >> 2) & 0x03;	// Reihenfolge +n vom sendbuffer geändert wegen LIFO
+		sendbuffer[12 + i*4 + 2] = (senddata[i] >> 4) & 0x03;
+		sendbuffer[12 + i*4 + 3] = (senddata[i] >> 6) & 0x03;
 	} //K nur bis hier mitrechnen
 	uint8_t checksum = 0;
 	for(int i = 0; i < 12 + (datalen * 4); i++) {

@@ -78,13 +78,14 @@
 #define HI 2150
 #define LO 1200
 
+unsigned char byteArray[4];
 
 SemaphoreHandle_t xMutex = NULL;
 uint8_t receivebuffer[50];
 uint8_t k = 0; // Nicht Best Practise Provisorium!!
 uint8_t checksumGL = 0; // Initialisierung der Checksumme
 uint8_t calculatedChecksum = 0; // Variable f�r die berechnete Checksumme
-float reconstructedFloat; // Nicht Best Practise Provisorium!!
+float reconstructedFloat = 0; // Nicht Best Practise Provisorium!!
 uint8_t debug = 0;
 
 
@@ -345,6 +346,41 @@ int16_t getNextHighPos(uint32_t Pos){
 	}
 }
 
+void getDataTemp(void) {
+	uint8_t datalenght = 4;
+	static int pReceivebuffer = 12;
+	static int byteArrayIndex = 0;
+
+	for (int i = 0; i < 16; i++) {
+		switch (receivebuffer[pReceivebuffer]) {
+			case 0:
+			byteArray[byteArrayIndex] |= (0b000 << (i % 4) * 2);
+			break;
+			case 1:
+			byteArray[byteArrayIndex] |= (0b001 << (i % 4) * 2);
+			break;
+			case 2:
+			byteArray[byteArrayIndex] |= (0b010 << (i % 4) * 2);
+			break;
+			case 3:
+			byteArray[byteArrayIndex] |= (0b11 << (i % 4) * 2); 
+			break;
+		}
+		pReceivebuffer++;
+
+		// Wenn viermal ins byteArray[0] geschrieben wurde, gehe zum nächsten Element
+		if ((i + 1) % datalenght == 0) {
+			byteArrayIndex++;
+		}
+	}
+
+	// Zurücksetzen von pReceivebuffer und byteArrayIndex, wenn es am Ende des receivebuffer angelangt ist
+	if (pReceivebuffer >= 28) {
+		pReceivebuffer = 12;
+		byteArrayIndex = 0;
+	}
+}
+
 void vTest(void *pvParameters){
 	uint32_t read_pos = 0;
 	int16_t pos = 0;
@@ -472,6 +508,8 @@ void vTest(void *pvParameters){
 					if ((receivebuffer[28] == 0) && (receivebuffer[29] == 1) && (receivebuffer[30] == 2) && (receivebuffer[31] == 3))
 					{
 						protocolmode = FINAL;
+						getDataTemp();
+						memcpy(&reconstructedFloat, byteArray, sizeof(float));
 					}else{
 						RX_Pos = 0;
 						protocolmode = Idel0;
