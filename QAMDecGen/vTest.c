@@ -510,6 +510,11 @@ void vTest(void *pvParameters){
 						protocolmode = FINAL;
 						getDataTemp();
 						memcpy(&reconstructedFloat, byteArray, sizeof(float));
+						for (int i = 0; i < 4 ; i++)
+						{
+							byteArray[i] = 0;
+						}
+						
 					}else{
 						RX_Pos = 0;
 						protocolmode = Idel0;
@@ -724,4 +729,14 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos)
 
 	}
 	return newnumber;
+}
+void vDisplay(void* pvParameters){
+	
+
+	for (;;) {
+		
+		vDisplayClear();
+		vDisplayWriteStringAtPos(0,0, "%f 'C", reconstructedFloat);
+		vTaskDelay(1000/portTICK_RATE_MS);
+	}
 }

@@ -10,7 +10,7 @@
 #define VTEST_H_
 
 void vTest(void *pvParameters);
-
+void vDisplay(void* pvParameters);
 
 
 #endif /* VTEST_H_ */
