@@ -25,6 +25,7 @@
 #include "utils.h"
 #include "errorHandler.h"
 #include "NHD0420Driver.h"
+#include "LSM9DS1Driver.h"
 
 #include "qaminit.h"
 #include "qamgen.h"
