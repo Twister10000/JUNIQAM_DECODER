@@ -265,6 +265,9 @@
     <Compile Include="includes\avr_compiler.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="includes\Defines.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="includes\errorHandler.h">
       <SubType>compile</SubType>
     </Compile>

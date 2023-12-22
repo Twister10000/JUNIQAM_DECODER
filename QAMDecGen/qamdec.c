@@ -26,34 +26,16 @@
 #include "qamdec.h"
 #include "string.h"
 #include "main.h"
-
-/*Defines*/
-
-#define BitMask 0x000000FF
-/*Test Init*/
-
+#include "Defines.h"
 
 /*Queue Init*/
 QueueHandle_t decoderQueue;
 
-
-
 /*Array Init*/
-uint16_t ringbuffer[256]; //Array nicht Global erstellen
-
+uint16_t ringbuffer[256];
 
 /*Var Init*/
 uint32_t write_pos = 0;
-
-
-
-/*Pointer Init*/
-
-
-
-
-
-void analyzediff();
 
 void vQuamDec(void* pvParameters)
 {
@@ -87,8 +69,6 @@ void vQuamDec(void* pvParameters)
 		vTaskDelay( 2 / portTICK_RATE_MS );
 	}//Klammer For
 }
-
-
 
 void fillDecoderQueue(uint16_t buffer[NR_OF_SAMPLES])
 {
