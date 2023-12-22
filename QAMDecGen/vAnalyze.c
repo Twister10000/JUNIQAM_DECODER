@@ -229,7 +229,7 @@ uint8_t onethreequartersjump(uint8_t lastnumber, uint8_t k){
 
 uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t lastnumber, uint8_t k);
 
-int16_t getNextHighPos(uint32_t Pos){
+int16_t getNextHighPos(uint32_t Pos){ //Funktion für das Suchen der Peaks im Ringpuffer
 	int16_t syncpos = -1;
 
 	for (int i = 0; i < 60; ++i)
@@ -299,22 +299,22 @@ void vAnalyze(void *pvParameters){
 	
 	for (;;)
 	{ 
-		xSemaphoreTake(xMutex, portMAX_DELAY);
-		if (((write_pos) - (read_pos)) >= 70 )
+		xSemaphoreTake(xMutex, portMAX_DELAY); //Mutex für die Variabel write_pos!
+		if (((write_pos) - (read_pos)) >= 70 ) 
 		{
 			xSemaphoreGive(xMutex);
 			pos = getNextHighPos(read_pos);
 			nextpos = getNextHighPos(pos);
-			currentnumber = analyzediff(pos, nextpos, lastnumber, RX_Pos);
+			currentnumber = analyzediff(pos, nextpos, lastnumber, RX_Pos); 
 			RX_Pos++;
 			lastnumber = currentnumber;
-			if (nextpos == -1)
+			if (nextpos == -1) // Falls wir kein neuen Peak finden konnten!
 			{
 				read_pos = pos-4;
 			}else{
-			read_pos = nextpos-4;
+			read_pos = nextpos-4; // Damit wir beim nächsten Durchlauf den letzten Peak wieder finden können
 			}
-			switch(protocolmode){ 
+			switch(protocolmode){  // Hier wird unser Protocolhandling betrieben
 				case Idel0:
 					if (currentnumber == 0)
 					{
@@ -340,8 +340,8 @@ void vAnalyze(void *pvParameters){
 						protocolmode = Idel0;						
 					}
 					break;
-				case sync:
-					if (currentnumber == 2)
+				case sync: 
+					if (currentnumber == 2) // Ab diesem Zeitpunkt sind wir uns Sicher dass wir den Start von einem Datenpaket gefunden haben.
 					{
 						RX_Pos = 4;
 						debug = 1;
@@ -416,7 +416,7 @@ void vAnalyze(void *pvParameters){
 	}
 }
 
-uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos){
+uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos){ //Funktion für die Analyse der Differenz von zwei Peaks 
 	uint8_t Offset = 0;
 	
 	uint8_t newnumber = 4;

@@ -41,7 +41,9 @@ void vApplicationIdleHook( void )
 {	
 	
 }
-
+ /************************************************************************/
+ /*Jeweils die nicht benötigten Elemente auskommentieren vor dem Upload!!*/
+ /************************************************************************/
 int main(void)
 {
 	resetReason_t reason = getResetReason();
@@ -49,19 +51,19 @@ int main(void)
 	vInitClock();
 	vInitDisplay();
 	
-	initDAC();
-	initDACTimer();
-	initGenDMA();
-	initADC();
-	initADCTimer();
-	initDecDMA();
+	initDAC();				//Wird für den Sender Gebraucht!
+	initDACTimer();			//Wird für den Sender Gebraucht!
+	initGenDMA();			//Wird für den Sender Gebraucht!
+	initADC();				//Wird für den Empfänger Gebraucht!
+	initADCTimer();			//Wird für den Empfänger Gebraucht!
+	initDecDMA();			//Wird für den Empfänger Gebraucht!
 	
 	LSM9DS1Init();
 	
-	xTaskCreate(vQuamGen, NULL, configMINIMAL_STACK_SIZE+500, NULL, 2, NULL);
- 	xTaskCreate(vQuamDec, NULL, configMINIMAL_STACK_SIZE+400, NULL, 2, NULL);
-// 	xTaskCreate(vAnalyze, NULL, configMINIMAL_STACK_SIZE+400, NULL, 1, NULL);
-//  	xTaskCreate(vDisplay, NULL, configMINIMAL_STACK_SIZE+100, NULL, 3, NULL);
+	xTaskCreate(vQuamGen, NULL, configMINIMAL_STACK_SIZE+500, NULL, 2, NULL);			//Wird für den Sender Gebraucht!
+ 	xTaskCreate(vQuamDec, NULL, configMINIMAL_STACK_SIZE+400, NULL, 2, NULL);			//Wird für den Empfänger Gebraucht!
+// 	xTaskCreate(vAnalyze, NULL, configMINIMAL_STACK_SIZE+400, NULL, 1, NULL);			//Wird für den Empfänger Gebraucht!
+//	xTaskCreate(vDisplay, NULL, configMINIMAL_STACK_SIZE+100, NULL, 3, NULL);			//Wird für den Empfänger Gebraucht!
 
 	vDisplayClear();
 	vDisplayWriteStringAtPos(0,0,"FreeRTOS 10.0.1");
