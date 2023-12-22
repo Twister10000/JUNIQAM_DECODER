@@ -206,7 +206,6 @@ void fillBuffer(uint16_t buffer[NR_OF_SAMPLES]) {
 			/*        END OF SIMULATION                                             */
 			/************************************************************************/
 		}
-		//debug_gen = 0;   //Nur Für Testzwecke ChaosData auskommentiert! Kann später wieder gewechselt werden
 		pSendbuffer = 0;
 	}
 }

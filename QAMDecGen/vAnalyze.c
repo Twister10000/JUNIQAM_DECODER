@@ -112,58 +112,10 @@ float reconstructedFloat = 0; // Nicht Best Practise Provisorium!!
 uint8_t debug = 0;
 
 
-//  	uint16_t ringbuffer[256] = { //IDEL STREAM 030303
-// 		LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 		LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 		LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 		LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
-// 		LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 		LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
-// 		LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 		LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO};
-		
-//  	uint16_t ringbuffer[256] = { //SYNC STREAM 0202
-// 	 	LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 	 	LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 	 	LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 	 	LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 	 	LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 	 	LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 	 	LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-//  		LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO};
-		
-
-
-
 uint8_t quarterjump(uint8_t lastnumber, uint8_t k){
 	uint8_t newnumber = 0;
 	receivebuffer[k] = 0;
 	return newnumber;
-// 	switch(lastnumber){
-// 		case 0:
-// 		receivebuffer[k] = 1;
-// 		newnumber = 1;
-// 		return newnumber;
-// 		break;
-// 		case 1:
-// 		receivebuffer[k] = 2;
-// 		newnumber = 2;
-// 		return newnumber;
-// 		break;
-// 		case 2:
-// 		receivebuffer[k] = 3;
-// 		newnumber = 3;
-// 		return newnumber;
-// 		break;
-// 		case 3:
-// 		receivebuffer[k] = 0;
-// 		newnumber = 0;
-// 		return newnumber;
-// 		break;
-// 		default:
-// 		return 4;
-// 		break;
-// 	}
 }
 
 uint8_t halfjump(uint8_t lastnumber, uint8_t k){
@@ -355,11 +307,7 @@ int16_t getNextHighPos(uint32_t Pos){
 		{
 			syncpos = (Pos & BitMask);
 			return syncpos;
-		}//if (ringbuffer[Pos & BitMask] < 50)
-// 		{
-// 			vTaskDelay(1/portTICK_RATE_MS);
-// 		}
-		
+		}
 	}
 	if (syncpos != -1)
 	{
@@ -415,36 +363,15 @@ void vAnalyze(void *pvParameters){
 	uint8_t symbol = 0;
 	xMutex = xSemaphoreCreateMutex();
 
-	
-	
-// 	uint16_t ringbuffer[256] = {LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
-// 								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
-// 								LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-// 								LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO};
-								
-	//uint16_t ringbuffer[256] = {LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-		//LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-		//LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,
-		//LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-		//LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-		//LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-		//LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,
-	//LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO,HI,LO,LO,LO,LO,LO,LO,LO,LO,LO,LO};
-	
 	(void) pvParameters;
 	
 	for (;;)
-	{ /*Data ist eine Biilig Counting Semaphore weill ich noch keines erstellen konnte 05.12.2023*/
+	{ 
 		xSemaphoreTake(xMutex, portMAX_DELAY);
 		if (((write_pos) - (read_pos)) >= 70 )
 		{
 			xSemaphoreGive(xMutex);
 			pos = getNextHighPos(read_pos);
-			//Semaphore Give
 			nextpos = getNextHighPos(pos);
 			currentnumber = analyzediff(pos, nextpos, lastnumber, RX_Pos);
 			RX_Pos++;
@@ -455,7 +382,7 @@ void vAnalyze(void *pvParameters){
 			}else{
 			read_pos = nextpos-4;
 			}
-			switch(protocolmode){ //Sinnvoll hier das mit dem Receivbuffer zu machen?
+			switch(protocolmode){ 
 				case Idel0:
 					if (currentnumber == 0)
 					{
@@ -504,7 +431,7 @@ void vAnalyze(void *pvParameters){
 					}
 					break;
 				case checksum:
-					for (size_t i = 0; i < (NR_OF_SAMPLES-4); i++) { /*CODE CHECKING FOR REALISTIC?*/
+					for (size_t i = 0; i < (NR_OF_SAMPLES-4); i++) { 
 						calculatedChecksum += receivebuffer[i];
 					}
 					for (int z = 0; z < NR_OF_SAMPLES-4; z++){
@@ -537,7 +464,6 @@ void vAnalyze(void *pvParameters){
 						{
 							byteArray[i] = 0;
 						}
-						
 					}else{
 						RX_Pos = 0;
 						protocolmode = Idel0;
@@ -547,36 +473,8 @@ void vAnalyze(void *pvParameters){
 					
 						protocolmode = Idel0;
 						RX_Pos = 0;
-					
-					break;
-				
-				
-			}
-			
-// 			switch(protocolmode) {
-// 				case Idele0:
-// 					if(impulseValue == 0)
-// 						protocolmode = Idle1:
-// 				break;
-// 				case Idle1:
-// 					if(impulseValue == 3)
-// 						protocolmode = Idle0:
-// 				break;
-// 				case Sync:
-// 					if(protocolmode == Idle0 && impulseValue == 2):
-// 						protocolmode =  type;
-// 				break;
-// 				case type:
-// 				
-// 				break;
-// 				case data:
-// 				
-// 				break;
-// 				case checksum:
-// 				
-// 				brek;
-//				}
-				
+					break;	
+			}	
 	}else
 	{
 		xSemaphoreGive(xMutex);
@@ -585,7 +483,6 @@ void vAnalyze(void *pvParameters){
 	vTaskDelay(1/portTICK_RATE_MS);
 	}
 }
-
 
 uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos){
 	uint8_t Offset = 0;
@@ -597,8 +494,8 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos)
 	}else{
 	Offset = nextpos - Pos;
 	}
-	switch(Offset){ // Startwert ist 3
-		case quarterjump1: //Cases zusammenf�hren f�r weniger zeilen code!! case1:case2:case3: Code break;
+	switch(Offset){ 
+		case quarterjump1: 
 		newnumber = quarterjump(number, rxpos); //Wenn man zu oft hier landet kann man beim Offset noch +1 dazurechnen
 		break;
 		case quarterjump2:
@@ -757,68 +654,23 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos)
 	}
 	//k++;
 	switch(rxpos){
-		case 32: //Wert noch anpassen working 62
+		case 32: 
 		if (debug == 1)
 		{
-		
 		rxpos = 0;
-// 		for (size_t i = 0; i < (NR_OF_SAMPLES-4); i++) {
-// 			calculatedChecksum += receivebuffer[i];
-// 		}
-		
-// 		for (int z = 0; z < NR_OF_SAMPLES-4; z++){
-// 			symbol = receivebuffer[z]; // Generiert das Signal entsprechend der Zeit seit dem letzten "Peak"-Signal
-// 			// Decodiere das Symbol
-// 			switch (symbol){
-// 				case 0:
-// 				checksumGL += receivebuffer[z];
-// 				break;
-// 				case 1:
-// 				checksumGL += receivebuffer[z];
-// 				break;
-// 				case 2:
-// 				checksumGL += receivebuffer[z];
-// 				break;
-// 				case 3:
-// 				checksumGL += receivebuffer[z];
-// 				break;
-// 				default:
-// 				// Auf Dispaly "Unknown symbol received!"
-// 				break;
-// 			}
-// 		}
-		if (calculatedChecksum == checksumGL) {
-			 //Schluss vom Analyze Teil
-			//CODE Für TEMP Auslesen!	
+		if (calculatedChecksum == checksumGL) {	
 		}
-		
-// 		for (int i = 0; i < 32; i++) //Nötig?
-// 		{
-// 			receivebuffer[i] = 0; //Mutex!
-// 		}
 		debug = 0;
 		checksumGL = 0;
 		}else{
 			break;
 		}
 		break;
-// 		case 4:
-// 			 		if (!((receivebuffer[0] == 0) && (receivebuffer[1] == 3) && (receivebuffer[2] == 0) && (receivebuffer[3] == 3))) //Gesammte P�ckchen Anzahl muss durch 4 Sauber geteitl werden k�nnen
-// 			 		{
-// 			 			k = 0;
-// 			 			for (int i = 0; i < 4; i++)
-// 			 			{
-// 			 				receivebuffer[i] = 0;
-// 			 			}
-// 			 		}
-// 			break;
-
 	}
 	return newnumber;
 }
 void vDisplay(void* pvParameters){
 	
-
 	for (;;) {
 		
 		vDisplayClear();
