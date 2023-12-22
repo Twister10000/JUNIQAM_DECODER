@@ -404,7 +404,7 @@ void getDataTemp(void) {
 	}
 }
 
-void vTest(void *pvParameters){
+void vAnalyze(void *pvParameters){
 	uint32_t read_pos = 0;
 	int16_t pos = 0;
 	int16_t nextpos = 0;

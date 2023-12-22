@@ -304,7 +304,7 @@
     <Compile Include="includes\utils.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="includes\vTest.h">
+    <Compile Include="includes\vAnalyze.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="init.c">
@@ -337,7 +337,7 @@
     <Compile Include="utils.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="vTest.c">
+    <Compile Include="vAnalyze.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

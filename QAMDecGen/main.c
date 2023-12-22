@@ -30,7 +30,7 @@
 #include "qamgen.h"
 #include "qamdec.h"
 #include "main.h"
-#include "vTest.h"
+#include "vAnalyze.h"
 
 extern void vApplicationIdleHook( void );
 void vLedBlink(void *pvParameters);
@@ -60,7 +60,7 @@ int main(void)
 	
 	xTaskCreate(vQuamGen, NULL, configMINIMAL_STACK_SIZE+500, NULL, 2, NULL);
  	xTaskCreate(vQuamDec, NULL, configMINIMAL_STACK_SIZE+400, NULL, 2, NULL);
-// 	xTaskCreate(vTest, NULL, configMINIMAL_STACK_SIZE+400, NULL, 1, NULL);
+// 	xTaskCreate(vAnalyze, NULL, configMINIMAL_STACK_SIZE+400, NULL, 1, NULL);
 //  	xTaskCreate(vDisplay, NULL, configMINIMAL_STACK_SIZE+100, NULL, 3, NULL);
 
 	vDisplayClear();

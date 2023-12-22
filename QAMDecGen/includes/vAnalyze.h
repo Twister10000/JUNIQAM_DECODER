@@ -9,7 +9,7 @@
 #ifndef VTEST_H_
 #define VTEST_H_
 
-void vTest(void *pvParameters);
+void vAnalyze(void *pvParameters);
 void vDisplay(void* pvParameters);
 
 
