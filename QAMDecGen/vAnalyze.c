@@ -431,156 +431,200 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos,
 	switch(Offset){ 
 		case quarterjump1: 
 		newnumber = quarterjump(number, rxpos); //Wenn man zu oft hier landet kann man beim Offset noch +1 dazurechnen
+		*p_drift = 1;
 		break;
 		case quarterjump2:
 		newnumber = quarterjump(number, rxpos);
 		break;
 		case quarterjump3:
 		newnumber = quarterjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case quarterjump4:
 		newnumber = quarterjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case quarterjump5:
 		newnumber = quarterjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case quarterjump6:
 		newnumber = quarterjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case halfjump0:
 		newnumber = halfjump(number, rxpos);
+		*p_drift = 1;
 		break;
 		case halfjump1:
 		newnumber = halfjump(number, rxpos);
+		*p_drift = 1;
 		break;
 		case halfjump2:
 		newnumber = halfjump(number, rxpos);
 		break;
 		case halfjump3:
 		newnumber = halfjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case halfjump4:
 		newnumber = halfjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case halfjump5:
 		newnumber = halfjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case halfjump6:
 		newnumber = halfjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case halfjump7:
 		newnumber = halfjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case threequartersjump0:
 		newnumber = threequartersjump(number, rxpos);
+		*p_drift = 1;
 		break;
 		case threequartersjump1:
 		newnumber = threequartersjump(number, rxpos);
+		*p_drift = 1;
 		break;
 		case threequartersjump2:
 		newnumber = threequartersjump(number, rxpos);
 		break;
 		case threequartersjump3:
 		newnumber = threequartersjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case threequartersjump4:
 		newnumber = threequartersjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case threequartersjump5:
 		newnumber = threequartersjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case threequartersjump6:
 		newnumber = threequartersjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case fulljump0:
 		newnumber = fulljump(number, rxpos);
+		*p_drift = 1;
 		break;
 		case fulljump1:
 		newnumber = fulljump(number, rxpos);
+		*p_drift = 1;
 		break;
 		case fulljump2:
 		newnumber = fulljump(number, rxpos);
 		break;
 		case fulljump3:
 		newnumber = fulljump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case fulljump4:
 		newnumber = fulljump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case fulljump5:
 		newnumber = fulljump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case fulljump6:
 		newnumber = fulljump(number, rxpos);
-		break;
-		case onequarterjump1:
-		newnumber = onequarterjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onequarterjump0:
 		newnumber = onequarterjump(number, rxpos);
+		*p_drift = 1;
+		break;
+		case onequarterjump1:
+		newnumber = onequarterjump(number, rxpos);
+		*p_drift = 1;
 		break;
 		case onequarterjump2:
 		newnumber = onequarterjump(number, rxpos);
 		break;
 		case onequarterjump3:
 		newnumber = onequarterjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onequarterjump4:
 		newnumber = onequarterjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onequarterjump5:
 		newnumber = onequarterjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onequarterjump6:
 		newnumber = onequarterjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onequarterjump7:
 		newnumber = onequarterjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onehalfjump0:
 		newnumber = onehalfjump(number, rxpos);
+		*p_drift = 1;
 		break;
 		case onehalfjump1:
 		newnumber = onehalfjump(number, rxpos);
+		*p_drift = 1;
 		break;
 		case onehalfjump2:
 		newnumber = onehalfjump(number, rxpos);
 		break;
 		case onehalfjump3:
 		newnumber = onehalfjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onehalfjump4:
 		newnumber = onehalfjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onehalfjump5:
 		newnumber = onehalfjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onehalfjump6:
 		newnumber = onehalfjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onehalfjump7:
 		newnumber = onehalfjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onethreequartersjump0:
 		newnumber = onethreequartersjump(number, rxpos);
+		*p_drift = 1;
 		break;
 		case onethreequartersjump1:
 		newnumber = onethreequartersjump(number, rxpos);
+		*p_drift = 1;
 		break;
 		case onethreequartersjump2:
 		newnumber = onethreequartersjump(number, rxpos);
 		break;
 		case onethreequartersjump3:
 		newnumber = onethreequartersjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onethreequartersjump4:
 		newnumber = onethreequartersjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onethreequartersjump5:
 		newnumber = onethreequartersjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		case onethreequartersjump6:
 		newnumber = onethreequartersjump(number, rxpos);
+		*p_drift = -1;
 		break;
 		default:
 		//Code für Resett einbauen
