@@ -435,6 +435,7 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos,
 		break;
 		case quarterjump2:
 		newnumber = quarterjump(number, rxpos);
+		*p_drift = 0;
 		break;
 		case quarterjump3:
 		newnumber = quarterjump(number, rxpos);
@@ -462,6 +463,7 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos,
 		break;
 		case halfjump2:
 		newnumber = halfjump(number, rxpos);
+		*p_drift = 0
 		break;
 		case halfjump3:
 		newnumber = halfjump(number, rxpos);
@@ -493,6 +495,7 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos,
 		break;
 		case threequartersjump2:
 		newnumber = threequartersjump(number, rxpos);
+		*p_drift = 0
 		break;
 		case threequartersjump3:
 		newnumber = threequartersjump(number, rxpos);
@@ -520,6 +523,7 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos,
 		break;
 		case fulljump2:
 		newnumber = fulljump(number, rxpos);
+		*p_drift = 0
 		break;
 		case fulljump3:
 		newnumber = fulljump(number, rxpos);
@@ -547,6 +551,7 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos,
 		break;
 		case onequarterjump2:
 		newnumber = onequarterjump(number, rxpos);
+		*p_drift = 0
 		break;
 		case onequarterjump3:
 		newnumber = onequarterjump(number, rxpos);
@@ -578,6 +583,7 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos,
 		break;
 		case onehalfjump2:
 		newnumber = onehalfjump(number, rxpos);
+		*p_drift = 0
 		break;
 		case onehalfjump3:
 		newnumber = onehalfjump(number, rxpos);
@@ -609,6 +615,7 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos,
 		break;
 		case onethreequartersjump2:
 		newnumber = onethreequartersjump(number, rxpos);
+		*p_drift = 0
 		break;
 		case onethreequartersjump3:
 		newnumber = onethreequartersjump(number, rxpos);
