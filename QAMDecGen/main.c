@@ -63,8 +63,8 @@ int main(void)
 	
 	xTaskCreate(vQuamGen, NULL, configMINIMAL_STACK_SIZE+500, NULL, 2, NULL);			//Wird für den Sender Gebraucht!
  	xTaskCreate(vQuamDec, NULL, configMINIMAL_STACK_SIZE+400, NULL, 2, NULL);			//Wird für den Empfänger Gebraucht!
-// 	xTaskCreate(vAnalyze, NULL, configMINIMAL_STACK_SIZE+400, NULL, 1, NULL);			//Wird für den Empfänger Gebraucht!
-//	xTaskCreate(vDisplay, NULL, configMINIMAL_STACK_SIZE+100, NULL, 3, NULL);			//Wird für den Empfänger Gebraucht!
+ 	xTaskCreate(vAnalyze, NULL, configMINIMAL_STACK_SIZE+400, NULL, 1, NULL);			//Wird für den Empfänger Gebraucht!
+	xTaskCreate(vDisplay, NULL, configMINIMAL_STACK_SIZE+100, NULL, 3, NULL);			//Wird für den Empfänger Gebraucht!
 
 	vDisplayClear();
 	vDisplayWriteStringAtPos(0,0,"FreeRTOS 10.0.1");

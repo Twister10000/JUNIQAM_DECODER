@@ -227,7 +227,7 @@ uint8_t onethreequartersjump(uint8_t lastnumber, uint8_t k){
 	}
 }
 
-uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t lastnumber, uint8_t k);
+uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t lastnumber, uint8_t k, int8_t * p_drift);
 
 int16_t getNextHighPos(uint32_t Pos){ //Funktion für das Suchen der Peaks im Ringpuffer
 	int16_t syncpos = -1;
@@ -293,6 +293,7 @@ void vAnalyze(void *pvParameters){
 	uint8_t protocolmode = 0;
 	uint8_t RX_Pos = 0;
 	uint8_t symbol = 0;
+	int8_t drift = 0;
 	xMutex = xSemaphoreCreateMutex();
 
 	(void) pvParameters;
@@ -305,7 +306,7 @@ void vAnalyze(void *pvParameters){
 			xSemaphoreGive(xMutex);
 			pos = getNextHighPos(read_pos);
 			nextpos = getNextHighPos(pos);
-			currentnumber = analyzediff(pos, nextpos, lastnumber, RX_Pos); 
+			currentnumber = analyzediff(pos, nextpos, lastnumber, RX_Pos, &drift); 
 			RX_Pos++;
 			lastnumber = currentnumber;
 			if (nextpos == -1) // Falls wir kein neuen Peak finden konnten!
@@ -416,7 +417,7 @@ void vAnalyze(void *pvParameters){
 	}
 }
 
-uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos){ //Funktion für die Analyse der Differenz von zwei Peaks 
+uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos, int8_t * p_drift){ //Funktion für die Analyse der Differenz von zwei Peaks 
 	uint8_t Offset = 0;
 	
 	uint8_t newnumber = 4;
@@ -425,6 +426,7 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos)
 		Offset = 8;
 	}else{
 	Offset = nextpos - Pos;
+	Offset = Offset + *p_drift;
 	}
 	switch(Offset){ 
 		case quarterjump1: 
