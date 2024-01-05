@@ -44,7 +44,7 @@ uint8_t debug = 0;
 float reconstructedFloat = 0; // Nicht Best Practise Provisorium!!
 
 
-uint8_t quarterjump(uint8_t lastnumber, uint8_t k){
+uint8_t quarterjump(uint8_t lastnumber, uint8_t k){ 
 	uint8_t newnumber = 0;
 	receivebuffer[k] = 0;
 	return newnumber;
@@ -423,7 +423,7 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos,
 	uint8_t newnumber = 4;
 	if (nextpos == -1)
 	{
-		Offset = 8;
+		Offset = 8; //Vlt sollten wir einfach die alte Zahl zurückgeben
 	}else{
 	Offset = nextpos - Pos;
 	Offset = Offset + *p_drift;
@@ -637,21 +637,21 @@ uint8_t analyzediff(int16_t Pos, int16_t nextpos, uint8_t number, uint8_t rxpos,
 		//Code für Resett einbauen
 		break;
 	}
-	//k++;
-	switch(rxpos){
-		case 32: 
-		if (debug == 1)
-		{
-		rxpos = 0;
-		if (calculatedChecksum == checksumGL) {	
-		}
-		debug = 0;
-		checksumGL = 0;
-		}else{
-			break;
-		}
-		break;
-	}
+// 	//k++;
+// 	switch(rxpos){
+// 		case 32: 
+// 		if (debug == 1)
+// 		{
+// 		rxpos = 0;
+// 		if (calculatedChecksum == checksumGL) {	
+// 		}
+// 		debug = 0;
+// 		checksumGL = 0;
+// 		}else{
+// 			break;
+// 		}
+// 		break;
+// 	}
 	return newnumber;
 }
 void vDisplay(void* pvParameters){
